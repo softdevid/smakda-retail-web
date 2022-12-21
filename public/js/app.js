@@ -2318,6 +2318,7 @@ Dropdown.Link = DropdownLink;
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./resources/js/Components/Guru/Main.js":
 /*!**********************************************!*\
   !*** ./resources/js/Components/Guru/Main.js ***!
@@ -2448,6 +2449,8 @@ function Navbar() {
 
 /***/ }),
 
+=======
+>>>>>>> d2f96fb62ccad37b4b9cf8229b09a3ab8ec3df18
 /***/ "./resources/js/Components/Input.js":
 /*!******************************************!*\
   !*** ./resources/js/Components/Input.js ***!
@@ -3490,6 +3493,7 @@ function Dashboard(props) {
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./resources/js/Pages/Guru/Utama.js":
 /*!******************************************!*\
   !*** ./resources/js/Pages/Guru/Utama.js ***!
@@ -3524,6 +3528,8 @@ Utama.layout = function (page) {
 
 /***/ }),
 
+=======
+>>>>>>> d2f96fb62ccad37b4b9cf8229b09a3ab8ec3df18
 /***/ "./resources/js/Pages/Welcome.js":
 /*!***************************************!*\
   !*** ./resources/js/Pages/Welcome.js ***!
@@ -57065,8 +57071,11 @@ var map = {
 	"./Auth/VerifyEmail.js": "./resources/js/Pages/Auth/VerifyEmail.js",
 	"./Dashboard": "./resources/js/Pages/Dashboard.js",
 	"./Dashboard.js": "./resources/js/Pages/Dashboard.js",
+<<<<<<< HEAD
 	"./Guru/Utama": "./resources/js/Pages/Guru/Utama.js",
 	"./Guru/Utama.js": "./resources/js/Pages/Guru/Utama.js",
+=======
+>>>>>>> d2f96fb62ccad37b4b9cf8229b09a3ab8ec3df18
 	"./Welcome": "./resources/js/Pages/Welcome.js",
 	"./Welcome.js": "./resources/js/Pages/Welcome.js"
 };
