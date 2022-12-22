@@ -1,18 +1,15 @@
+import { Head } from "@inertiajs/inertia-react";
 import React from "react";
 import Navbar from "./Navbar";
 
 const Main = (props) => {
+    // console.log(props);
     return (
         <>
-            <head>
-                <title>{{ $title }}</title>
-            </head>
-            <body>
-                <Navbar />
-                <div className="container mx-auto my-auto">
-                    {props.children}
-                </div>
-            </body>
+            <Head title={props.title} />
+
+            <Navbar />
+            <div className="container mx-auto my-4">{props.children}</div>
         </>
     );
 };
