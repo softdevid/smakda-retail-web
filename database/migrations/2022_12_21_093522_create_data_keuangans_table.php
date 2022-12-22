@@ -16,10 +16,11 @@ class CreateDataKeuangansTable extends Migration
         Schema::create('data_keuangans', function (Blueprint $table) {
             $table->id();
             $table->foreign('nik');
-            $table->date('tanggal');
-            $table->date('bulan');
-            $table->date('tahun');
+            $table->date('tanggalPemasukan');
+            $table->date('tanggalPengeluaran');
             $table->integer('pemasukan');
+            $table->integer('pengeluaran');
+            $table->integer('saldo');
             $table->timestamps();
         });
     }
