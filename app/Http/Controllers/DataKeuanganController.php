@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataKeuangan;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DataKeuanganController extends Controller
 {
@@ -13,8 +14,11 @@ class DataKeuanganController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    { {
+            return Inertia::render('Home/Pemasukkan', [
+                "title" => "Pemasukkan",
+            ]);
+        }
     }
 
     /**

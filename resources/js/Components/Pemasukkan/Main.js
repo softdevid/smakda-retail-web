@@ -9,7 +9,7 @@ const Main = (props) => {
             <Head title={props.title} />
             <Navbar />
             <div className="text-center font-bold mx-auto my-4 text-2xl">
-                <h1>Data Guru</h1>
+                <h1>Data Pemasukkan</h1>
             </div>
             <div className="container mx-auto my-4">{props.children}</div>
         </>

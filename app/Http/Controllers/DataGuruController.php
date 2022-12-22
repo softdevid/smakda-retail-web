@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataGuru;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class DataGuruController extends Controller
 {
@@ -13,8 +14,11 @@ class DataGuruController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    { {
+            return Inertia::render('Home/Utama', [
+                "title" => "Halaman Utama",
+            ]);
+        }
     }
 
     /**
