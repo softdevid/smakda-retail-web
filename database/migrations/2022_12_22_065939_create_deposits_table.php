@@ -17,6 +17,7 @@ class CreateDepositsTable extends Migration
             $table->id();
             $table->foreign('nik');
             $table->integer('saldo');
+            $table->date('tanggalSaldo');
             $table->timestamps();
         });
     }

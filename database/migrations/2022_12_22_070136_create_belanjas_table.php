@@ -17,6 +17,7 @@ class CreateBelanjasTable extends Migration
             $table->id();
             $table->foreign('nik');
             $table->integer('belanja');
+            $table->integer('tanggalBelanja');
             $table->timestamps();
         });
     }
