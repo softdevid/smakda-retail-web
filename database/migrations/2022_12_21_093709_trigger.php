@@ -22,7 +22,7 @@ class Trigger extends Migration
         );
 
         DB::unprepared(
-            'CREATE TRIGGER `tr_updateSaldoBElanja` AFTER INSERT ON `belanjas`
+            'CREATE TRIGGER `tr_updateSaldoB3lanja` AFTER INSERT ON `belanjas`
              FOR EACH ROW BEGIN
                 UPDATE data_gurus set sisaSaldo = sisaSaldo - NEW.belanja where nik = NEW.nik;
             END'
