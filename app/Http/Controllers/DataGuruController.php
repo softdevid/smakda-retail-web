@@ -69,7 +69,7 @@ class DataGuruController extends Controller
      */
     public function show(DataGuru $dataGuru, $nik)
     {
-        $dataGuru = DataGuru::find($nik);
+        $dataGuru = DataGuru::where('ink', $nik)->first();
     }
 
     /**
