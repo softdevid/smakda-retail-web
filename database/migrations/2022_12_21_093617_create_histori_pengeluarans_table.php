@@ -16,6 +16,7 @@ class CreateHistoriPengeluaransTable extends Migration
         Schema::create('histori_pengeluarans', function (Blueprint $table) {
             $table->id();
             $table->foreign('nik');
+            $table->integer('saldoSebelumnya');
             $table->integer('pengeluaran');
             $table->timestamps();
         });
