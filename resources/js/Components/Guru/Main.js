@@ -8,7 +8,7 @@ const Main = (props) => {
     <>
       <Head title={props.title} />
       <Navbar />
-      <div className="container mx-auto my-4">{props.children}</div>
+      {props.children}
     </>
   );
 };
