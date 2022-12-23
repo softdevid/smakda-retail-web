@@ -42,7 +42,26 @@ class DataGuruController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate(
+            [
+                'nik' => 'required|unique:data_gurus,nik',
+                'nama' => 'required',
+                'alamat' => 'required',
+                'jabatan' => 'required',
+                'jenisKelamin' => 'required',
+            ],
+            [
+                'nik.required' => 'NIK harus diisi',
+                'nik.unique:data_gurus,nik' => 'NIK sudah ada',
+                'nama.required' => 'Nama harus diisi',
+                'alamat.required' => 'Alamat harus diisi',
+                'jabatan.required' => 'Jabatan harus diisi',
+                'jenisKelamin.required' => 'Jenis Kelamin harus pilih',
+            ]
+        );
+
+        DataGuru::create($data);
+        return back()->with('message', 'Data guru berhasil ditambah');
     }
 
     /**
@@ -51,9 +70,9 @@ class DataGuruController extends Controller
      * @param  \App\Models\DataGuru  $dataGuru
      * @return \Illuminate\Http\Response
      */
-    public function show(DataGuru $dataGuru)
+    public function show(DataGuru $dataGuru, $nik)
     {
-        //
+        $dataGuru = DataGuru::where('ink', $nik)->first();
     }
 
     /**
@@ -62,9 +81,9 @@ class DataGuruController extends Controller
      * @param  \App\Models\DataGuru  $dataGuru
      * @return \Illuminate\Http\Response
      */
-    public function edit(DataGuru $dataGuru)
+    public function edit(DataGuru $dataGuru, $nik)
     {
-        //
+        $dataGuru = DataGuru::where('nik', $nik)->first();
     }
 
     /**
@@ -74,9 +93,9 @@ class DataGuruController extends Controller
      * @param  \App\Models\DataGuru  $dataGuru
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DataGuru $dataGuru)
+    public function update(Request $request, DataGuru $dataGuru, $nik)
     {
-        //
+        $dataGuru = DataGuru::where('nik', $nik)->first();
     }
 
     /**
@@ -85,8 +104,9 @@ class DataGuruController extends Controller
      * @param  \App\Models\DataGuru  $dataGuru
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DataGuru $dataGuru)
+    public function destroy(DataGuru $dataGuru, $nik)
     {
-        //
+        $dataGuru = DataGuru::where('nik', $nik)->delete();
+        return back()->with('message', 'Data guru berhasil dihapus');
     }
 }
