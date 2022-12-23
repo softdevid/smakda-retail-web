@@ -15,7 +15,7 @@ class CreateBelanjasTable extends Migration
     {
         Schema::create('belanjas', function (Blueprint $table) {
             $table->id();
-            $table->foreign('nik');
+            $table->foreignId('nik');
             $table->integer('belanja');
             $table->integer('tanggalBelanja');
             $table->timestamps();

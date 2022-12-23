@@ -14,7 +14,7 @@ class CreateDataGurusTable extends Migration
     public function up()
     {
         Schema::create('data_gurus', function (Blueprint $table) {
-            $table->primary('nik');
+            $table->id('nik');
             $table->string('nama');
             $table->string('alamat');
             $table->string('jabatan');

@@ -8,5 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class DataGuru extends Model
 {
     use HasFactory;
+
     protected $primaryKey = 'nik';
+    protected $keyType = 'string';
 }
