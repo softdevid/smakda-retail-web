@@ -27,8 +27,11 @@ class DataGuruController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
+    { {
+            return Inertia::render('Data/Tambah', [
+                "title" => "Tambah Data",
+            ]);
+        }
     }
 
     /**
