@@ -13,7 +13,7 @@ const Tambah = () => {
         <div className="grid gap-6 mb-6 md:grid-cols-2">
           <div>
             <label
-              for="first_name"
+              htmlFor="first_name"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               NIK
@@ -29,7 +29,7 @@ const Tambah = () => {
           </div>
           <div>
             <label
-              for="namalengkap"
+              htmlFor="namalengkap"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Nama Lengkap
@@ -45,7 +45,7 @@ const Tambah = () => {
           </div>
           <div>
             <label
-              for="alamat"
+              htmlFor="alamat"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Alamat
@@ -61,7 +61,7 @@ const Tambah = () => {
           </div>
           <div>
             <label
-              for="jabatan"
+              htmlFor="jabatan"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Jabatan
@@ -76,15 +76,14 @@ const Tambah = () => {
               required
             >
               <option selected>Jabatan Anda</option>
-              <option value=""></option>
-              <option value=""></option>
-              <option value=""></option>
-              <option value=""></option>
+              <option>Guru</option>
+              <option>Karyawan</option>
+              <option>Kepala Sekolah</option>
             </select>
           </div>
           <div>
             <label
-              for="jeniskelamin"
+              htmlFor="jeniskelamin"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Jenis Kelamin
@@ -99,13 +98,13 @@ const Tambah = () => {
               required
             >
               <option selected>Jenis Kelamin Anda</option>
-              <option value=""></option>
-              <option value=""></option>
+              <option>Laki - laki</option>
+              <option>Perempuan</option>
             </select>
           </div>
           <div>
             <label
-              for="sisasaldo"
+              htmlFor="sisasaldo"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Sisa Saldo
