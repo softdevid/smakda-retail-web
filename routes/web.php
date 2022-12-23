@@ -19,6 +19,7 @@ use Inertia\Inertia;
 
 Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
 Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.create');
+Route::post('/tambahdata/store', [DataGuruController::class, 'store'])->name('home.store');
 Route::get('/deposit', [DataKeuanganController::class, 'index'])->name('home.index');
 
 // Route::get('/dashboard', function () {

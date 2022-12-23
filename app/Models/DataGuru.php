@@ -9,6 +9,7 @@ class DataGuru extends Model
 {
     use HasFactory;
 
+    protected $guarded = [''];
     protected $primaryKey = 'nik';
     protected $keyType = 'string';
 }

@@ -40,6 +40,7 @@ class DataGuruController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $data = $request->validate(
             [
                 'nik' => 'required|unique:data_gurus,nik',
@@ -58,7 +59,14 @@ class DataGuruController extends Controller
             ]
         );
 
-        DataGuru::create($data);
+        DataGuru::create([
+            'nik' => $request->nik,
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'jabatan' => $request->jabatan,
+            'jenisKelamin' => $request->jenisKelamin,
+            'sisaSaldo' => 0,
+        ]);
         return back()->with('message', 'Data guru berhasil ditambah');
     }
 

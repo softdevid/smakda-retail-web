@@ -19,7 +19,7 @@ class CreateDataGurusTable extends Migration
             $table->string('alamat');
             $table->string('jabatan');
             $table->string('jenisKelamin');
-            $table->string('sisaSaldo');
+            $table->integer('sisaSaldo')->default(0)->nullable();
             $table->timestamps();
         });
     }
