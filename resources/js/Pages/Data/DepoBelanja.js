@@ -10,12 +10,14 @@ const DepoBelanja = () => {
           <h1>Deposit dan Pengeluaran</h1>
         </div>
         <div className="m-4">
-          <div className="bg-gray-200 rounded-lg grid md:grid-cols-2 p-4 gap-4">
+          <div className="bg-white rounded-lg grid md:grid-cols-2 p-4 gap-4">
             <div>
               <div className="flex justify-center items-center">
                 <div class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4">
                   <div class="py-4 px-6">
-                    <h1 class="text-2xl font-semibold text-gray-800">Nama</h1>
+                    <h1 class="text-2xl font-semibold text-gray-800">
+                      Ardianto Putra Pratomo
+                    </h1>
                     <p class="py-2 text-lg text-gray-700">Alamat</p>
                     <div class="flex items-center mt-4 text-gray-700">
                       <h1 class="px-2 text-sm">NIK</h1>

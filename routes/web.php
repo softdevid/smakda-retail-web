@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DataGuruController;
 use App\Http\Controllers\DataKeuanganController;
+use App\Http\Controllers\SaldoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +21,8 @@ use Inertia\Inertia;
 Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
 Route::get('/rincian', [DataGuruController::class, 'rincian'])->name('home.rincian');
 Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.create');
+Route::get('/cek-saldo', [SaldoController::class, 'index'])->name('home.index');
+
 
 Route::get('/depobelanja', [DataKeuanganController::class, 'index'])->name('home.index');
 
