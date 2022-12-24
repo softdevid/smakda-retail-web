@@ -20,7 +20,12 @@ use Inertia\Inertia;
 Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
 Route::get('/rincian', [DataGuruController::class, 'rincian'])->name('home.rincian');
 Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.create');
+<<<<<<< HEAD
 Route::get('/depobelanja', [DataKeuanganController::class, 'index'])->name('home.index');
+=======
+Route::post('/tambahdata/store', [DataGuruController::class, 'store'])->name('home.store');
+Route::get('/deposit', [DataKeuanganController::class, 'index'])->name('home.index');
+>>>>>>> b23d9d6e6928bd003dc6b4d3de10d23bcb1e55af
 
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');

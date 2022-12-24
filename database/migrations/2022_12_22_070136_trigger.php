@@ -15,7 +15,7 @@ class Trigger extends Migration
     public function up()
     {
         DB::unprepared(
-            'CREATE TRIGGER `tr_updateSaldoDeposit` AFTER INSERT ON `belanjas`
+            'CREATE TRIGGER `tr_updateSaldoDeposit` AFTER INSERT ON `deposits`
              FOR EACH ROW BEGIN
                 UPDATE data_gurus set sisaSaldo = sisaSaldo + NEW.saldo where nik = NEW.nik;
             END'

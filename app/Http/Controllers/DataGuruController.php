@@ -14,11 +14,10 @@ class DataGuruController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { {
-            return Inertia::render('Home/Utama', [
-                "title" => "Halaman Utama",
-            ]);
-        }
+    {
+        return Inertia::render('Home/Utama', [
+            "title" => "Halaman Utama",
+        ]);
     }
     public function rincian()
     { {
@@ -34,11 +33,10 @@ class DataGuruController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    { {
-            return Inertia::render('Data/Tambah', [
-                "title" => "Tambah Data",
-            ]);
-        }
+    {
+        return Inertia::render('Data/Tambah', [
+            "title" => "Tambah Data",
+        ]);
     }
 
     /**
@@ -49,6 +47,7 @@ class DataGuruController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $data = $request->validate(
             [
                 'nik' => 'required|unique:data_gurus,nik',
@@ -67,7 +66,14 @@ class DataGuruController extends Controller
             ]
         );
 
-        DataGuru::create($data);
+        DataGuru::create([
+            'nik' => $request->nik,
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'jabatan' => $request->jabatan,
+            'jenisKelamin' => $request->jenisKelamin,
+            'sisaSaldo' => 0,
+        ]);
         return back()->with('message', 'Data guru berhasil ditambah');
     }
 

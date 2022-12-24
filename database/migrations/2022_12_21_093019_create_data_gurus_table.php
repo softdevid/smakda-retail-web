@@ -14,12 +14,12 @@ class CreateDataGurusTable extends Migration
     public function up()
     {
         Schema::create('data_gurus', function (Blueprint $table) {
-            $table->primary('nik');
+            $table->string('nik', 20);
             $table->string('nama');
             $table->string('alamat');
             $table->string('jabatan');
             $table->string('jenisKelamin');
-            $table->string('sisaSaldo');
+            $table->integer('sisaSaldo')->default(0)->nullable();
             $table->timestamps();
         });
     }

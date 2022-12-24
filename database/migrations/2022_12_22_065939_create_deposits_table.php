@@ -15,7 +15,7 @@ class CreateDepositsTable extends Migration
     {
         Schema::create('deposits', function (Blueprint $table) {
             $table->id();
-            $table->foreign('nik');
+            $table->foreignId('nik');
             $table->integer('saldo');
             $table->date('tanggalSaldo');
             $table->timestamps();
