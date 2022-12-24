@@ -1,7 +1,7 @@
 import Main from "@/Components/Guru/Main";
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import React, { useState } from "react";
 
 
@@ -11,28 +11,21 @@ const Tambah = (props) => {
   const [alamat, setAlamat] = useState('');
   const [jabatan, setJabatan] = useState('');
   const [jenisKelamin, setJenisKelamin] = useState('');
-  // const [notif, setNotif] = useState(false);
-
-  console.log(nik, nama, alamat, jabatan, jenisKelamin);
+  const [notif, setNotif] = useState(false);
 
   const handleSubmit = () => {
     const data = {
       nik, nama, alamat, jabatan, jenisKelamin
     }
     Inertia.post('/tambahdata/store', data);
-    // setNotif(true);
+    setNotif(true);
     setNik('');
     setNama('');
     setAlamat('');
-    setJabatan('');
-    setJenisKelamin('');
+    setJabatan('Jabatan');
+    setJenisKelamin('Jenis Kelamin');
+    console.log(props, data);
   }
-
-  useEffect(() => {
-    Inertia.get('/tambahdata')
-    return;
-
-  }, []);
 
   return (
     <>
@@ -133,26 +126,10 @@ const Tambah = (props) => {
                 <option value="perempuan">Perempuan</option>
               </select>
             </div>
-            {/* <div>
-              <label
-                htmlFor="sisasaldo"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Sisa Saldo
-              </label>
-              <input
-                type="text"
-                name="sisaSaldo"
-                id="sisasaldo"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Nama Lengkap"
-                required
-              />
-            </div> */}
           </div>
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs md:text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             onClick={() => handleSubmit()}>
             Submit
           </button>
