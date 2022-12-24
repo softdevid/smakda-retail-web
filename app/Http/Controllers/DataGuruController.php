@@ -15,16 +15,18 @@ class DataGuruController extends Controller
      */
     public function index()
     {
+        $dataGuru = DataGuru::all();
         return Inertia::render('Home/Utama', [
             "title" => "Halaman Utama",
+            'dataGuru' => $dataGuru,
         ]);
     }
+
     public function rincian()
-    { {
-            return Inertia::render('Home/Rincian', [
-                "title" => "Halaman Rincian",
-            ]);
-        }
+    {
+        return Inertia::render('Home/Rincian', [
+            "title" => "Halaman Rincian",
+        ]);
     }
 
     /**
@@ -94,8 +96,9 @@ class DataGuruController extends Controller
      * @param  \App\Models\DataGuru  $dataGuru
      * @return \Illuminate\Http\Response
      */
-    public function edit(DataGuru $dataGuru, $nik)
+    public function edit(Request $request, $nik)
     {
+        // dd($nik);
         return Inertia::render('Data/Ubah', [
             "title" => "Ubah Data",
             "dataGuru" => DataGuru::where('nik', $nik)->first()

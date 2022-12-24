@@ -8,7 +8,7 @@ const Main = (props) => {
     <>
       <Head title={props.title} />
       <Navbar />
-      {props.children}
+      {props.children}      
     </>
   );
 };

@@ -11,7 +11,7 @@ const Ubah = (props) => {
   const [alamat, setAlamat] = useState("");
   const [jabatan, setJabatan] = useState("");
   const [jenisKelamin, setJenisKelamin] = useState("");
-  const [notif, setNotif] = useState(false);
+  // const [notif, setNotif] = useState(false);
 
   const handleSubmit = () => {
     const data = {
@@ -21,8 +21,8 @@ const Ubah = (props) => {
       jabatan,
       jenisKelamin,
     };
-    Inertia.post("/tambahdata/store", data);
-    setNotif(true);
+    Inertia.post("/data-guru/update", data);
+    // setNotif(true);
     setNik("");
     setNama("");
     setAlamat("");

@@ -1,6 +1,6 @@
 import Main from "@/Components/Guru/Main";
 import { Inertia } from "@inertiajs/inertia";
-import { Link } from "@inertiajs/inertia-react";
+import { Link, usePage } from "@inertiajs/inertia-react";
 import { useState, useEffect } from "react";
 // import React, { useState } from "react";
 
@@ -28,6 +28,19 @@ const Tambah = (props) => {
     console.log(props, data);
   }
 
+  const { errors } = usePage().props
+  
+  const [values, setValues] = useState({
+    nik: null,    
+  })
+
+  function handleChange(e) {
+    setValues(values => ({
+      ...values,
+      [e.target.id]: e.target.value,
+    }))
+  }
+
   return (
     <>
       <div className="container px-4 mx-auto my-4">
@@ -38,19 +51,20 @@ const Tambah = (props) => {
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label
-                htmlFor="first_name"
+                htmlFor="nik"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
                 NIK
               </label>
               <input
                 type="text"
-                id="first_name"
+                id="nik"
                 name="nik"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="NIK Anda"
                 required value={nik} onChange={(nik) => setNik(nik.target.value)}
               />
+              {errors.nik && <div>{errors.nik}</div>}
             </div>
             <div>
               <label
