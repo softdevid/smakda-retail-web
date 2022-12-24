@@ -19,6 +19,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
+Route::get('/editguru/{nik}', [DataGuruController::class, 'edit'])->name('home.edit');
 Route::get('/rincian', [DataGuruController::class, 'rincian'])->name('home.rincian');
 Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.create');
 Route::get('/cek-saldo', [SaldoController::class, 'index'])->name('home.index');

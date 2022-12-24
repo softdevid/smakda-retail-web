@@ -38,6 +38,7 @@ const Rincian = () => {
             >
               Kembali
             </Link>
+            &nbsp;
             <Link
               href="/print"
               type="button"

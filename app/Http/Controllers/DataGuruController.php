@@ -96,7 +96,10 @@ class DataGuruController extends Controller
      */
     public function edit(DataGuru $dataGuru, $nik)
     {
-        $dataGuru = DataGuru::where('nik', $nik)->first();
+        return Inertia::render('Data/Ubah', [
+            "title" => "Ubah Data",
+            "dataGuru" => DataGuru::where('nik', $nik)->first()
+        ]);
     }
 
     /**
