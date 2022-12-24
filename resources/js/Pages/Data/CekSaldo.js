@@ -2,7 +2,7 @@ import Main from "@/Components/Guru/Main";
 import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 
-const Rincian = () => {
+const CekSaldo = () => {
   return (
     <>
       <div className="container mx-auto my-4">
@@ -83,6 +83,6 @@ const Rincian = () => {
     </>
   );
 };
-Rincian.layout = (page) => <Main children={page} />;
+CekSaldo.layout = (page) => <Main children={page} />;
 
-export default Rincian;
+export default CekSaldo;
