@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 
 
 const Tambah = (props) => {
+  console.log(props);
   const [nik, setNik] = useState('');
   const [nama, setNama] = useState('');
   const [alamat, setAlamat] = useState('');
