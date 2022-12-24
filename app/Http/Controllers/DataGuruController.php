@@ -20,6 +20,13 @@ class DataGuruController extends Controller
             ]);
         }
     }
+    public function rincian()
+    { {
+            return Inertia::render('Home/Rincian', [
+                "title" => "Halaman Rincian",
+            ]);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.

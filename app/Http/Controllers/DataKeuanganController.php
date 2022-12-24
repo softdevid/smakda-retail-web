@@ -15,8 +15,8 @@ class DataKeuanganController extends Controller
      */
     public function index()
     { {
-            return Inertia::render('Home/Pemasukkan', [
-                "title" => "Pemasukkan",
+            return Inertia::render('Data/DepoBelanja', [
+                "title" => "Deposit dan Pengeluaran",
             ]);
         }
     }
