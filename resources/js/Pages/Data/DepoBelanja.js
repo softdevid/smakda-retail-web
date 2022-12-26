@@ -1,41 +1,63 @@
 import Main from "@/Components/Guru/Main";
+import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
-import React from "react";
+import React, { useState } from "react";
 
-const DepoBelanja = () => {
+const DepoBelanja = (props) => {
+
+  console.log(props);
+
+  const [saldo, setSaldo] = useState("");
+  const [belanja, setBelanja] = useState("");
+  const [tanggalSaldo, setTanggalSaldo] = useState("");
+  const [tanggalBelanja, setTanggalBelanja] = useState("");
+
+  const handleSubmit = () => {
+    const data = {
+      saldo, belanja, tanggalSaldo, tanggalBelanja, nik: props.dataKeuangan.nik
+    }
+    // console.log(data);
+    Inertia.post("/deposit-belanja/store", data);
+  }
+
   return (
     <>
       <div className="container mx-auto my-4">
         <div className="text-center font-bold mx-auto my-4 text-2xl">
-          <h1>Deposit dan Pengeluaran</h1>
+          <h1>Deposit & Pengeluaran</h1>
         </div>
         <div className="m-4">
           <div className="bg-white rounded-lg grid md:grid-cols-2 p-4 gap-4">
             <div>
               <div className="flex justify-center items-center">
-                <div class="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden my-4">
-                  <div class="py-4 px-6">
-                    <h1 class="text-2xl font-semibold text-gray-800">
-                      Ardianto Putra Pratomo
-                    </h1>
-                    <p class="py-2 text-lg text-gray-700">Alamat</p>
-                    <div class="flex items-center mt-4 text-gray-700">
-                      <h1 class="px-2 text-sm">NIK</h1>
+                <div className="max-w-sm bg-white rounded-lg overflow-hidden my-4">
+                  <div className="py-4 px-6">
+                  <div className="flex items-center mt-4 text-gray-700">
+                      <h1 className="px-2 text-sm">Nama: {props.dataKeuangan.nama}</h1>
                     </div>
-                    <div class="flex items-center mt-4 text-gray-700">
-                      <h1 class="px-2 text-sm">Jabatan</h1>
+                    <div className="flex items-center mt-4 text-gray-700">
+                      <h1 className="px-2 text-sm">NIK: {props.dataKeuangan.nik}</h1>
                     </div>
-                    <div class="flex items-center mt-4 text-gray-700">
-                      <h1 class="px-2 text-sm">Jenis Kelamin</h1>
+                    <div className="flex items-center mt-4 text-gray-700">
+                      <h1 className="px-2 text-sm">Jabatan: {props.dataKeuangan.jabatan}</h1>
+                    </div>
+                    <div className="flex items-center mt-4 text-gray-700">
+                      <h1 className="px-2 text-sm">Jenis Kelamin: {props.dataKeuangan.jenisKelamin}</h1>
+                    </div>
+                    <div className="flex items-center mt-4 text-gray-700">
+                      <h1 className="px-2 text-sm">Alamat:</h1>
+                      <p>{props.dataKeuangan.alamat}</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div>
+
               <div className="text-center font-bold mx-auto my-4 text-2xl">
-                <h1>Deposit & Pengeluaran</h1>
+                <h1>Deposit</h1>
               </div>
+
               <form>
                 <div className="grid gap-6 mb-6 px-4 md:grid-cols-1">
                   <div>
@@ -50,8 +72,8 @@ const DepoBelanja = () => {
                       name="saldo"
                       id="saldo"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Nama Lengkap"
-                      required
+                      placeholder="Saldo"
+                      onChange={(saldo) => setSaldo(saldo.target.value)}
                     />
                   </div>
                   <div>
@@ -66,9 +88,14 @@ const DepoBelanja = () => {
                       name="tanggalSaldo"
                       id="tanggal"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      required
+                      onChange={(tanggalSaldo) => setTanggalSaldo(tanggalSaldo.target.value)}
                     />
                   </div>
+
+                  <div className="text-center font-bold mx-auto my-4 text-2xl">
+                    <h1>Pengeluaran</h1>
+                  </div>
+
                   <div>
                     <label
                       htmlFor="belanja"
@@ -81,8 +108,8 @@ const DepoBelanja = () => {
                       name="belanja"
                       id="belanja"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Nama Lengkap"
-                      required
+                      placeholder="Belanja"
+                      onChange={(belanja) => setBelanja(belanja.target.value)}
                     />
                   </div>
                   <div>
@@ -97,13 +124,13 @@ const DepoBelanja = () => {
                       name="tanggalBelanja"
                       id="tanggalbelanja"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      required
+                      onChange={(tanggalBelanja) => setTanggalBelanja(tanggalBelanja.target.value)}
                     />
                   </div>
                 </div>
               </form>
               <button
-                type="submit"
+                type="submit" onClick={() => handleSubmit()}
                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Submit

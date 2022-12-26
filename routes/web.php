@@ -20,9 +20,12 @@ use Inertia\Inertia;
 
 Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
 
-Route::get('/data-guru/{nik}/edit', [DataGuruController::class, 'edit'])->name('home.edit');
-Route::get('/editguru/{nik}', [DataGuruController::class, 'edit'])->name('home.edit');
-Route::get('/editguru/{nik}', [DataGuruController::class, 'edit'])->name('home.edit');
+Route::get('/data-guru/{nik}/edit', [DataGuruController::class, 'edit'])->name('guru.edit');
+Route::get('/data-guru/{nik}', [DataGuruController::class, 'show'])->name('guru.show');
+Route::post('/data-guru/update', [DataGuruController::class, 'update'])->name('guru.update');
+Route::delete('/data-guru/delete/{nik}', [DataGuruController::class, 'destroy'])->name('guru.delete');
+
+Route::post('/deposit-belanja/store', [DataKeuanganController::class, 'saldo'])->name('saldo.store');
 
 
 Route::get('/rincian', [DataGuruController::class, 'rincian'])->name('home.rincian');
@@ -30,7 +33,7 @@ Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.cre
 Route::get('/cek-saldo', [SaldoController::class, 'index'])->name('home.index');
 
 
-Route::get('/depobelanja', [DataKeuanganController::class, 'index'])->name('home.index');
+Route::get('/deposit-belanja/{nik}', [DataKeuanganController::class, 'index'])->name('home.index');
 
 Route::post('/tambahdata/store', [DataGuruController::class, 'store'])->name('home.store');
 Route::get('/deposit', [DataKeuanganController::class, 'index'])->name('home.index');

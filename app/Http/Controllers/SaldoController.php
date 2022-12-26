@@ -11,12 +11,12 @@ use Inertia\Inertia;
 class SaldoController extends Controller
 {
     public function index()
-    { {
-            return Inertia::render('Data/CekSaldo', [
-                "title" => "Cek Saldo",
-            ]);
-        }
+    {
+        return Inertia::render('Data/CekSaldo', [
+            "title" => "Cek Saldo",
+        ]);
     }
+
     public function saldo(Request $request, $nik)
     {
         $saldo = DataGuru::where('nik', $nik)->first();

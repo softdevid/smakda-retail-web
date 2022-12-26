@@ -23,23 +23,16 @@ const Tambah = (props) => {
     setNik('');
     setNama('');
     setAlamat('');
-    setJabatan('Jabatan');
-    setJenisKelamin('Jenis Kelamin');
+    setJabatan = useState('Jabatan');
+    setJenisKelamin('');
     console.log(props, data);
   }
 
   const { errors } = usePage().props
-  
-  const [values, setValues] = useState({
-    nik: null,    
-  })
 
-  function handleChange(e) {
-    setValues(values => ({
-      ...values,
-      [e.target.id]: e.target.value,
-    }))
-  }
+  const [values, setValues] = useState({
+    nik: null,
+  })
 
   return (
     <>

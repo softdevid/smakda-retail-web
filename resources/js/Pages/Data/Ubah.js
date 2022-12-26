@@ -5,30 +5,26 @@ import { useState, useEffect } from "react";
 // import React, { useState } from "react";
 
 const Ubah = (props) => {
-  console.log(props);
   const [nik, setNik] = useState("");
-  const [nama, setNama] = useState("");
-  const [alamat, setAlamat] = useState("");
-  const [jabatan, setJabatan] = useState("");
-  const [jenisKelamin, setJenisKelamin] = useState("");
+  const nikLama = props.dataGuru.nik
+  const [nama, setNama] = useState(props.dataGuru.nama);
+  const [alamat, setAlamat] = useState(props.dataGuru.alamat);
+  const [jabatan, setJabatan] = useState(props.dataGuru.jabatan);
+  const [jenisKelamin, setJenisKelamin] = useState(props.dataGuru.jenisKelamin);
+  console.log(props, nikLama);
   // const [notif, setNotif] = useState(false);
 
   const handleSubmit = () => {
     const data = {
       nik,
+      nikLama,
       nama,
       alamat,
       jabatan,
       jenisKelamin,
     };
-    Inertia.post("/data-guru/update", data);
+    Inertia.post("/data-guru/update/", data);
     // setNotif(true);
-    setNik("");
-    setNama("");
-    setAlamat("");
-    setJabatan("Jabatan");
-    setJenisKelamin("Jenis Kelamin");
-    console.log(props, data);
   };
 
   return (
@@ -53,8 +49,7 @@ const Ubah = (props) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="NIK Anda"
                 required
-                value={nik}
-                onChange={(nik) => setNik(nik.target.value)}
+                onChange={(nik) => setNik(nik.target.value)} defaultValue={(nikLama)}
               />
             </div>
             <div>
@@ -71,8 +66,7 @@ const Ubah = (props) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Nama Lengkap"
                 required
-                value={nama}
-                onChange={(nama) => setNama(nama.target.value)}
+                onChange={(nama) => setNama(nama.target.value)} defaultValue={props.dataGuru.nama}
               />
             </div>
             <div>
@@ -89,8 +83,7 @@ const Ubah = (props) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Alamat Anda"
                 required
-                value={alamat}
-                onChange={(alamat) => setAlamat(alamat.target.value)}
+                onChange={(alamat) => setAlamat(alamat.target.value)} defaultValue={props.dataGuru.alamat}
               />
             </div>
             <div>
@@ -108,9 +101,9 @@ const Ubah = (props) => {
                 placeholder="123-45-678"
                 pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
                 required
-                onChange={(jabatan) => setJabatan(jabatan.target.value)}
+                onChange={(jabatan) => setJabatan(jabatan.target.value)} defaultValue={(jabatan)}
               >
-                <option selected>Jabatan</option>
+                <option>Jabatan</option>
                 <option value="guru">Guru</option>
                 <option value="karyawan">Karyawan</option>
                 <option value="kepala sekolah">Kepala Sekolah</option>
@@ -133,9 +126,9 @@ const Ubah = (props) => {
                 required
                 onChange={(jenisKelamin) =>
                   setJenisKelamin(jenisKelamin.target.value)
-                }
+                } defaultValue={(jenisKelamin)}
               >
-                <option value="" selected>
+                <option>
                   Jenis Kelamin
                 </option>
                 <option value="laki-laki">Laki - laki</option>
@@ -154,7 +147,7 @@ const Ubah = (props) => {
           <Link
             href="/"
             type="button"
-            class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
           >
             Kembali
           </Link>

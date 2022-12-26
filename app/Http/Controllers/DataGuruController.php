@@ -22,13 +22,6 @@ class DataGuruController extends Controller
         ]);
     }
 
-    public function rincian()
-    {
-        return Inertia::render('Home/Rincian', [
-            "title" => "Halaman Rincian",
-        ]);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -87,7 +80,12 @@ class DataGuruController extends Controller
      */
     public function show(DataGuru $dataGuru, $nik)
     {
-        $dataGuru = DataGuru::where('ink', $nik)->first();
+        $dataGuru = DataGuru::where('nik', $nik)->first();
+        return Inertia::render('Data/Rincian', [
+            "title" => "Detail guru",
+            'dataGuru' => $dataGuru,
+        ]);
+
     }
 
     /**
@@ -112,9 +110,29 @@ class DataGuruController extends Controller
      * @param  \App\Models\DataGuru  $dataGuru
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DataGuru $dataGuru, $nik)
+    public function update(Request $request, DataGuru $dataGuru)
     {
-        $dataGuru = DataGuru::where('nik', $nik)->first();
+        // $nik = $request->nikLama;
+        // dd($request->all());
+        if($request->nik !== $request->nikLama) {
+            DataGuru::where('nik', $request->nikLama)->update([
+                'nik' => $request->nikLama,
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'jabatan' => $request->jabatan,
+                'jenisKelamin' => $request->jenisKelamin,
+            ]);
+        } else {
+            DataGuru::where('nik', $request->nikLama)->update([
+                'nik' => $request->nik,
+                'nama' => $request->nama,
+                'alamat' => $request->alamat,
+                'jabatan' => $request->jabatan,
+                'jenisKelamin' => $request->jenisKelamin,
+            ]);
+        }
+
+        return redirect()->to('/');
     }
 
     /**
@@ -123,9 +141,10 @@ class DataGuruController extends Controller
      * @param  \App\Models\DataGuru  $dataGuru
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DataGuru $dataGuru, $nik)
+    public function destroy(Request $request, $nik)
     {
-        $dataGuru = DataGuru::where('nik', $nik)->delete();
-        return back()->with('message', 'Data guru berhasil dihapus');
+        // $nik = $request->nik;
+        DataGuru::where('nik', $nik)->delete();
+        return redirect()->back()->with('message', 'Data guru berhasil dihapus');
     }
 }
