@@ -5,26 +5,26 @@ import { useState, useEffect } from "react";
 // import React, { useState } from "react";
 
 const Ubah = (props) => {
-  const [nik, setNik] = useState("");
-  const nikLama = props.dataGuru.nik
+  const [nik, setNik] = useState(props.dataGuru.nik);  
   const [nama, setNama] = useState(props.dataGuru.nama);
   const [alamat, setAlamat] = useState(props.dataGuru.alamat);
   const [jabatan, setJabatan] = useState(props.dataGuru.jabatan);
   const [jenisKelamin, setJenisKelamin] = useState(props.dataGuru.jenisKelamin);
-  console.log(props, nikLama);
+  
   // const [notif, setNotif] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const data = {
+      nikLama: props.dataGuru.nik,
       nik,
-      nikLama,
       nama,
       alamat,
       jabatan,
       jenisKelamin,
     };
     Inertia.post("/data-guru/update/", data);
-    // setNotif(true);
+    return;
   };
 
   return (
@@ -33,7 +33,7 @@ const Ubah = (props) => {
         <div className="text-center font-bold mx-auto my-4 text-2xl">
           <h1>Ubah Data</h1>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label
@@ -49,7 +49,7 @@ const Ubah = (props) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="NIK Anda"
                 required
-                onChange={(nik) => setNik(nik.target.value)} defaultValue={(nikLama)}
+                onChange={(nik) => setNik(nik.target.value)} defaultValue={props.dataGuru.nik}
               />
             </div>
             <div>
@@ -139,7 +139,7 @@ const Ubah = (props) => {
           <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs md:text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            onClick={() => handleSubmit()}
+            
           >
             Submit
           </button>

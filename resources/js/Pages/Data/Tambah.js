@@ -14,11 +14,14 @@ const Tambah = (props) => {
   const [jenisKelamin, setJenisKelamin] = useState('');
   const [notif, setNotif] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const data = {
       nik, nama, alamat, jabatan, jenisKelamin
     }
     Inertia.post('/tambahdata/store', data);
+
+
     setNotif(true);
     setNik('');
     setNama('');
@@ -28,11 +31,6 @@ const Tambah = (props) => {
     console.log(props, data);
   }
 
-  const { errors } = usePage().props
-
-  const [values, setValues] = useState({
-    nik: null,
-  })
 
   return (
     <>
@@ -40,7 +38,17 @@ const Tambah = (props) => {
         <div className="text-center font-bold mx-auto my-4 text-2xl">
           <h1>Tambah Data</h1>
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
+          {notif &&
+            <div class="flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+              <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+              <span class="sr-only">Info</span>
+              <div>
+                <span class="font-medium">{props.flash.message}</span>
+              </div>
+            </div>
+          }
+
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label
@@ -55,9 +63,8 @@ const Tambah = (props) => {
                 name="nik"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="NIK Anda"
-                required value={nik} onChange={(nik) => setNik(nik.target.value)}
+                nChange={(e) => setNik(e.target.value)}
               />
-              {errors.nik && <div>{errors.nik}</div>}
             </div>
             <div>
               <label
@@ -72,7 +79,7 @@ const Tambah = (props) => {
                 id="namalengkap"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Nama Lengkap"
-                required value={nama} onChange={(nama) => setNama(nama.target.value)}
+                onChange={(e) => setNama(e.target.value)}
               />
             </div>
             <div>
@@ -88,7 +95,7 @@ const Tambah = (props) => {
                 id="alamat"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Alamat Anda"
-                required value={alamat} onChange={(alamat) => setAlamat(alamat.target.value)}
+                onChange={(e) => setAlamat(e.target.value)}
               />
             </div>
             <div>
@@ -105,9 +112,9 @@ const Tambah = (props) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="123-45-678"
                 pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                required onChange={(jabatan) => setJabatan(jabatan.target.value)}
+                onChange={(e) => setJabatan(e.target.value)}
               >
-                <option selected>Jabatan</option>
+                <option>Jabatan</option>
                 <option value="guru">Guru</option>
                 <option value="karyawan">Karyawan</option>
                 <option value="kepala sekolah">Kepala Sekolah</option>
@@ -127,9 +134,9 @@ const Tambah = (props) => {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="123-45-678"
                 pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
-                required onChange={(jenisKelamin) => setJenisKelamin(jenisKelamin.target.value)}
+                onChange={(e) => setJenisKelamin(e.target.value)}
               >
-                <option value="" selected>Jenis Kelamin</option>
+                <option>Jenis Kelamin</option>
                 <option value="laki-laki">Laki - laki</option>
                 <option value="perempuan">Perempuan</option>
               </select>
@@ -137,8 +144,7 @@ const Tambah = (props) => {
           </div>
           <button
             type="submit"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs md:text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            onClick={() => handleSubmit()}>
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs md:text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             Submit
           </button>
           &nbsp;

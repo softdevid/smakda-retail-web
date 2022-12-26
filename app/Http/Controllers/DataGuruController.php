@@ -112,27 +112,50 @@ class DataGuruController extends Controller
      */
     public function update(Request $request, DataGuru $dataGuru)
     {
-        // $nik = $request->nikLama;
-        // dd($request->all());
-        if($request->nik !== $request->nikLama) {
-            DataGuru::where('nik', $request->nikLama)->update([
-                'nik' => $request->nikLama,
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'jabatan' => $request->jabatan,
-                'jenisKelamin' => $request->jenisKelamin,
-            ]);
-        } else {
-            DataGuru::where('nik', $request->nikLama)->update([
-                'nik' => $request->nik,
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'jabatan' => $request->jabatan,
-                'jenisKelamin' => $request->jenisKelamin,
-            ]);
+        $dataGuru = DataGuru::where('nik', $request->nikLama)->first();
+        
+        $data = $request->validate([
+            // 'nik' => 'required|unique:data_gurus,nik',
+            'nama' => 'required',
+            'alamat' => 'required',
+            'jabatan' => 'required',
+            'jenisKelamin' => 'required',
+        ]);
+
+        if ($request->nik !== $dataGuru->nik) {
+            $data['nik'] = 'required|unique:data_gurus,nik';
         }
 
-        return redirect()->to('/');
+        $dataGuru->update([
+            'nik' => $request->nik,
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'jabatan' => $request->jabatan,
+            'jenisKelamin' => $request->jenisKelamin,
+        ]);
+        
+        return redirect()->to('/')->with('message', 'Berhasil diupdate');
+
+        // if($request->nik !== $request->nikLama) {
+        //     DataGuru::where('nik', $request->nikLama)->update([
+        //         'nik' => $request->nikLama,
+        //         'nama' => $request->nama,
+        //         'alamat' => $request->alamat,
+        //         'jabatan' => $request->jabatan,
+        //         'jenisKelamin' => $request->jenisKelamin,
+        //     ]);
+        //     return redirect()->to('/');            
+        // } else {
+        //     DataGuru::where('nik', $request->nikLama)->update([
+        //         'nik' => $request->nik,
+        //         'nama' => $request->nama,
+        //         'alamat' => $request->alamat,
+        //         'jabatan' => $request->jabatan,
+        //         'jenisKelamin' => $request->jenisKelamin,
+        //     ]);
+        //     return redirect()->to('/');
+        // }
+
     }
 
     /**
