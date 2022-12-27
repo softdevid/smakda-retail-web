@@ -4,7 +4,7 @@ import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 
 const Utama = (props) => {
-    
+
   return (
     <>
         <div className="container mx-auto my-4">
@@ -80,11 +80,10 @@ const Utama = (props) => {
                         >
                           Ubah
                         </Link>
-                        <Link                          
+                        <Link
                           href={`/data-guru/delete/${dataGuru.nik}`} method="delete" as="button"
                           type="button"
-                          className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                          onClick={destroy}>
+                          className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                           Hapus
                         </Link>
                       </td>
