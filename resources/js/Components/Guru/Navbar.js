@@ -42,7 +42,7 @@ export default function Navbar() {
               </svg>
             </button>
           </div>
-          
+
         </div>
       </nav>
     </>

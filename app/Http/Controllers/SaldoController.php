@@ -49,4 +49,24 @@ class SaldoController extends Controller
 
         return back()->with('message', 'Berhasil');
     }
+
+    public function cekSaldoBulan(Request $request, $nik, $bulan)
+    {
+        $date = date('Y-m', strtotime($bulan));
+
+        $data = [
+            // 'deposit' => Deposit::where(['nik' => $nik, 'tanggalSaldo' => $date])->get(),
+            'deposit' => Deposit::whereMonth('created_at', $date)
+                ->where('nik', $nik)
+                ->get(),
+            'belanja' => Belanja::where(['tanggalBelanja' => $date, 'nik' => $nik])->get(),
+        ];
+
+        // dd($data);
+        return Inertia::render('CekSaldo/CekBulan', [
+            'title' => 'Cek Saldo berdasarkan bulan',
+            'date' => $date,
+            'data' => $data,
+        ]);
+    }
 }

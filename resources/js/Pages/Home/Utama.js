@@ -45,43 +45,43 @@ const Utama = (props) => {
                 </tr>
               </thead>
               <tbody>
-                {props.dataGuru ? props.dataGuru.map((dataGuru, i) => {
+                {props.dataGuru ? props.dataGuru.map((data, i) => {
                   return (
                     <tr key={i} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                       <th
                         scope="row"
                         className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        {dataGuru.nik}
+                        {data.nik}
                       </th>
-                      <td className="py-4 px-6">{dataGuru.nama}</td>
-                      <td className="py-4 px-6">{dataGuru.alamat}</td>
-                      <td className="py-4 px-6">{dataGuru.jabatan}</td>
-                      <td className="py-4 px-6">{dataGuru.jenisKelamin}</td>
+                      <td className="py-4 px-6">{data.nama}</td>
+                      <td className="py-4 px-6">{data.alamat}</td>
+                      <td className="py-4 px-6">{data.jabatan}</td>
+                      <td className="py-4 px-6">{data.jenisKelamin}</td>
                       <td className="flex items-center py-4 px-6 space-x-3">
                         <Link
-                          href={`/deposit-belanja/${dataGuru.nik}`}
+                          href={`/deposit-belanja/${data.nik}`}
                           type="button"
                           className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                         >
                           Deposit / Pengeluaran
                         </Link>
                         <Link
-                          href={`/data-guru/${dataGuru.nik}`}
+                          href={`/data-guru/${data.nik}`}
                           type="button"
                           className="focus:outline-none text-white bg-fuchsia-700 hover:bg-fuchsia-800 focus:ring-4 focus:ring-fuchsia-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-fuchsia-600 dark:hover:bg-fuchsia-700 dark:focus:ring-fuchsia-800"
                         >
                           Rincian
                         </Link>
                         <Link
-                          href={`/data-guru/${dataGuru.nik}/edit`}
+                          href={`/data-guru/${data.nik}/edit`}
                           type="button"
                           className="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"
                         >
                           Ubah
                         </Link>
                         <Link
-                          href={`/data-guru/delete/${dataGuru.nik}`} method="delete" as="button"
+                          href={`/data-guru/delete/${data.nik}`} method="delete" as="button"
                           type="button"
                           className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                           Hapus

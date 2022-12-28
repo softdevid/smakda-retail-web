@@ -27,41 +27,45 @@ class DataKeuanganController extends Controller
         ]);
     }
 
-    public function saldo(Request $request)
+    public function deposit(Request $request)
     {
-        // dd($request->all());
+        $request->validate([
+            'nik' => 'required',
+            'saldo' => 'required',
+            'tanggalSaldo' => 'required',
+        ]);
 
-        $nik = $request->nik;
-        $saldo = DataGuru::where('nik', $nik)->first();
+        Deposit::create([
+            'nik' => $request->nik,
+            'saldo' => $request->saldo,
+            'tanggalSaldo' => $request->tanggalSaldo,
+        ]);
 
-        if ($request->deposit && $request->belanja == null) {
-            return back()->with('message', 'Deposit / Jumlah Belanja harus diisi');
-        }
+        return redirect()->back()->with('message', 'Berhasil menambahkan saldo/deposit');
+    }
 
-        if ($request->belanja > $saldo->sisaSaldo && $request->deposit == '') {
-            return back()->with('message', 'Saldo kurang');
-        }
+    public function belanja(Request $request)
+    {
+        $request->validate([
+            'nik' => 'required',
+            'belanja' => 'required|min:1',
+            'tanggalBelanja' => 'required',
+        ]);
+        $dataGuru = DataGuru::where('nik', $request->nik)->first();
 
-
-        if ($request->belanja != null) {
+        if ($request->belanja > $dataGuru->sisaSaldo) {
+            return back()->with('error', 'Belanja lebih dari sisa saldo');
+        } else {
             Belanja::create([
                 'nik' => $request->nik,
-                'belanja' => $request->deposit,
+                'belanja' => $request->belanja,
                 'tanggalBelanja' => $request->tanggalBelanja,
             ]);
+            return back()->with('message', 'Berhasil menambahkan belanja/pengeluaran');
         }
 
-        if ($request->deposit !== null) {
-            Deposit::create([
-                'nik' => $request->nik,
-                'saldo' => $request->deposit,
-                'tanggalSaldo' => $request->tanggalSaldo,
-            ]);
-        }
-
-
-        return back()->with('message', 'Berhasil');
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -5,12 +5,12 @@ import { useState, useEffect } from "react";
 // import React, { useState } from "react";
 
 const Ubah = (props) => {
-  const [nik, setNik] = useState(props.dataGuru.nik);  
+  const [nik, setNik] = useState(props.dataGuru.nik);
   const [nama, setNama] = useState(props.dataGuru.nama);
   const [alamat, setAlamat] = useState(props.dataGuru.alamat);
   const [jabatan, setJabatan] = useState(props.dataGuru.jabatan);
   const [jenisKelamin, setJenisKelamin] = useState(props.dataGuru.jenisKelamin);
-  
+
   // const [notif, setNotif] = useState(false);
 
   const handleSubmit = (e) => {
@@ -24,7 +24,6 @@ const Ubah = (props) => {
       jenisKelamin,
     };
     Inertia.post("/data-guru/update/", data);
-    return;
   };
 
   return (
@@ -139,7 +138,7 @@ const Ubah = (props) => {
           <button
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs md:text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            
+
           >
             Submit
           </button>

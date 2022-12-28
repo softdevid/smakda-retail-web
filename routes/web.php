@@ -29,6 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/data-guru/delete/{nik}', [DataGuruController::class, 'destroy'])->name('guru.delete');
 
     Route::post('/deposit-belanja/store', [DataKeuanganController::class, 'saldo'])->name('saldo.store');
+    Route::post('/deposit/store', [DataKeuanganController::class, 'deposit'])->name('deposit.store');
+    Route::post('/belanja/store', [DataKeuanganController::class, 'belanja'])->name('belanja.store');
+
+    Route::get('/cek-saldo/bulan/{nik}/{bulan}', [SaldoController::class, 'cekSaldoBulan'])->name('cekSaldoBulan');
 
 
     Route::get('/rincian', [DataGuruController::class, 'rincian'])->name('home.rincian');
