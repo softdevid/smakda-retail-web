@@ -7,6 +7,14 @@ import React from "react";
 // import FileSaver from "file-saver";
 
 const Utama = (props) => {
+  function formatRupiah(angka) {
+    return angka.toLocaleString("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    });
+  }
+
+  // Output: "Rp100.000"
   // async function downloadExcel() {
   //   const response = await Inertia.get("/cetak-data", {
   //     responseType: "",
@@ -18,6 +26,23 @@ const Utama = (props) => {
       <div className="container mx-auto my-4">
         <div className="text-center font-bold mx-auto my-4 text-2xl">
           <h1>Data Guru</h1>
+        </div>
+        <div className="flex justify-end items-end m-4">
+          <Link
+            href="/tambahdata"
+            type="button"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Tambah Guru
+          </Link>
+          &nbsp;
+          <Link
+            href="/cetak-data"
+            type="button"
+            className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+          >
+            Cetak Data Guru
+          </Link>
         </div>
         <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -39,23 +64,10 @@ const Utama = (props) => {
                   Jenis Kelamin
                 </th>
                 <th scope="col" className="py-3 px-6">
-                  Aksi
+                  Saldo
                 </th>
                 <th scope="col" className="py-3 px-6">
-                  <Link
-                    href="/tambahdata"
-                    type="button"
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Tambah Guru
-                  </Link>
-                  <Link
-                    href="/cetak-data"
-                    type="button"
-                    className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                  >
-                    Cetak Data Guru
-                  </Link>
+                  Aksi
                 </th>
               </tr>
             </thead>
@@ -77,6 +89,9 @@ const Utama = (props) => {
                       <td className="py-4 px-6">{data.alamat}</td>
                       <td className="py-4 px-6">{data.jabatan}</td>
                       <td className="py-4 px-6">{data.jenisKelamin}</td>
+                      <td className="py-4 px-6">
+                        {formatRupiah(data.sisaSaldo)}
+                      </td>
                       <td className="flex items-center py-4 px-6 space-x-3">
                         <Link
                           href={`/deposit-belanja/${data.nik}`}

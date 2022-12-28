@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DataGuru;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Excel;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DataExport;
 use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
