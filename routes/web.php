@@ -37,8 +37,9 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/rincian', [DataGuruController::class, 'rincian'])->name('home.rincian');
-    Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.create');
-    Route::get('/cek-saldo', [SaldoController::class, 'index'])->name('home.index');
+    Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.create');    
+   
+    Route::get('/print-rincian/{nik}', [DataGuruController::class, 'printRincian'])->name('print.rincian');    
 
 
     Route::get('/deposit-belanja/{nik}', [DataKeuanganController::class, 'index'])->name('home.index');

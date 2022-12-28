@@ -140,6 +140,7 @@ class DataGuruController extends Controller
             'jabatan' => $request->jabatan,
             'jenisKelamin' => $request->jenisKelamin,
         ]);
+<<<<<<< HEAD
 
         return redirect()->to('/')->with('message', 'Berhasil diupdate');
 
@@ -162,6 +163,10 @@ class DataGuruController extends Controller
         //     ]);
         //     return redirect()->to('/');
         // }
+=======
+        
+        return redirect()->to('/')->with('message', 'Berhasil diupdate');       
+>>>>>>> 19b9dd9 (/)
 
     }
 
@@ -176,5 +181,12 @@ class DataGuruController extends Controller
         // $nik = $request->nik;
         DataGuru::where('nik', $nik)->delete();
         return redirect()->back()->with('message', 'Data guru berhasil dihapus');
+    }
+
+    public function printRincian($nik) {
+        return Inertia::render('Data/PrintRincian', [
+            'title' => 'Rincian',
+            'dataGuru' => DataGuru::where('nik', $nik)->first(),
+        ]);
     }
 }
