@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
+    Route::get('/cetak-data', [DataGuruController::class, 'excel'])->name('home.excel');
 
     Route::get('/data-guru/{nik}/edit', [DataGuruController::class, 'edit'])->name('guru.edit');
     Route::get('/data-guru/{nik}', [DataGuruController::class, 'show'])->name('guru.show');

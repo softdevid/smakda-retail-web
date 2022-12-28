@@ -1,9 +1,18 @@
 import Main from "@/Components/Guru/Main";
 import Authenticated from "@/Layouts/Authenticated";
+import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
+import axios from "axios";
 import React from "react";
+// import FileSaver from "file-saver";
 
 const Utama = (props) => {
+  // async function downloadExcel() {
+  //   const response = await Inertia.get("/cetak-data", {
+  //     responseType: "",
+  //   });
+  //   FileSaver.saveAs(new Blob([response.dataGuru]), "dataguru.xlsx");
+  // }
   return (
     <>
       <div className="container mx-auto my-4">
