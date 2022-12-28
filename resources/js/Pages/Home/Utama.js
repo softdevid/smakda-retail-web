@@ -4,50 +4,60 @@ import { Link } from "@inertiajs/inertia-react";
 import React from "react";
 
 const Utama = (props) => {
-
   return (
     <>
-        <div className="container mx-auto my-4">
-          <div className="text-center font-bold mx-auto my-4 text-2xl">
-            <h1>Data Guru</h1>
-          </div>
-          <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="py-3 px-6">
-                    NIK
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Nama
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Alamat
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Jabatan
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Jenis Kelamin
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Aksi
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    <Link
-                      href="/tambahdata"
-                      type="button"
-                      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      Tambah Guru
-                    </Link>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {props.dataGuru ? props.dataGuru.map((data, i) => {
+      <div className="container mx-auto my-4">
+        <div className="text-center font-bold mx-auto my-4 text-2xl">
+          <h1>Data Guru</h1>
+        </div>
+        <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="py-3 px-6">
+                  NIK
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Nama
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Alamat
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Jabatan
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Jenis Kelamin
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Aksi
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  <Link
+                    href="/tambahdata"
+                    type="button"
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Tambah Guru
+                  </Link>
+                  <Link
+                    href="/cetak-data"
+                    type="button"
+                    className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                  >
+                    Cetak Data Guru
+                  </Link>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {props.dataGuru ? (
+                props.dataGuru.map((data, i) => {
                   return (
-                    <tr key={i} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <tr
+                      key={i}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
                       <th
                         scope="row"
                         className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -81,19 +91,25 @@ const Utama = (props) => {
                           Ubah
                         </Link>
                         <Link
-                          href={`/data-guru/delete/${data.nik}`} method="delete" as="button"
+                          href={`/data-guru/delete/${data.nik}`}
+                          method="delete"
+                          as="button"
                           type="button"
-                          className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                          className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                        >
                           Hapus
                         </Link>
                       </td>
                     </tr>
-                  )
-                }) : <p>Belum ada Data</p>}
-              </tbody>
-            </table>
-          </div>
+                  );
+                })
+              ) : (
+                <p>Belum ada Data</p>
+              )}
+            </tbody>
+          </table>
         </div>
+      </div>
     </>
   );
 };
