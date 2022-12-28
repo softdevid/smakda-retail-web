@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\DataGuru;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Excel;
+use App\Exports\DataExport;
+use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
 class DataGuruController extends Controller
 {
@@ -20,6 +23,11 @@ class DataGuruController extends Controller
             "title" => "Halaman Utama",
             'dataGuru' => $dataGuru,
         ]);
+    }
+    public function excel()
+    {
+        $dataGuru = DataGuru::all();
+        return Excel::download(new DataExport($dataGuru), 'dataguru.xlsx');
     }
 
     /**
@@ -85,7 +93,6 @@ class DataGuruController extends Controller
             "title" => "Detail guru",
             'dataGuru' => $dataGuru,
         ]);
-
     }
 
     /**
@@ -113,7 +120,7 @@ class DataGuruController extends Controller
     public function update(Request $request, DataGuru $dataGuru)
     {
         $dataGuru = DataGuru::where('nik', $request->nikLama)->first();
-        
+
         $data = $request->validate([
             // 'nik' => 'required|unique:data_gurus,nik',
             'nama' => 'required',
@@ -133,7 +140,7 @@ class DataGuruController extends Controller
             'jabatan' => $request->jabatan,
             'jenisKelamin' => $request->jenisKelamin,
         ]);
-        
+
         return redirect()->to('/')->with('message', 'Berhasil diupdate');
 
         // if($request->nik !== $request->nikLama) {
@@ -144,7 +151,7 @@ class DataGuruController extends Controller
         //         'jabatan' => $request->jabatan,
         //         'jenisKelamin' => $request->jenisKelamin,
         //     ]);
-        //     return redirect()->to('/');            
+        //     return redirect()->to('/');
         // } else {
         //     DataGuru::where('nik', $request->nikLama)->update([
         //         'nik' => $request->nik,
