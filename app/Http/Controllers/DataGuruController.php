@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DataExport;
 use PhpOffice\PhpSpreadsheet\Calculation\Information\ExcelError;
 
+
 class DataGuruController extends Controller
 {
     /**
@@ -24,10 +25,20 @@ class DataGuruController extends Controller
             'dataGuru' => $dataGuru,
         ]);
     }
+
     public function excel()
     {
         $dataGuru = DataGuru::all();
         return Excel::download(new DataExport($dataGuru), 'dataguru.xlsx');
+    }
+
+    public function printData()
+    {
+        $dataGuru = DataGuru::all();
+        return Inertia::render('Data/PrintDataGuru', [
+            'title' => 'Data Guru',
+            'dataGuru' => $dataGuru,
+        ]);
     }
 
     /**
@@ -140,34 +151,9 @@ class DataGuruController extends Controller
             'jabatan' => $request->jabatan,
             'jenisKelamin' => $request->jenisKelamin,
         ]);
-<<<<<<< HEAD
+
 
         return redirect()->to('/')->with('message', 'Berhasil diupdate');
-
-        // if($request->nik !== $request->nikLama) {
-        //     DataGuru::where('nik', $request->nikLama)->update([
-        //         'nik' => $request->nikLama,
-        //         'nama' => $request->nama,
-        //         'alamat' => $request->alamat,
-        //         'jabatan' => $request->jabatan,
-        //         'jenisKelamin' => $request->jenisKelamin,
-        //     ]);
-        //     return redirect()->to('/');
-        // } else {
-        //     DataGuru::where('nik', $request->nikLama)->update([
-        //         'nik' => $request->nik,
-        //         'nama' => $request->nama,
-        //         'alamat' => $request->alamat,
-        //         'jabatan' => $request->jabatan,
-        //         'jenisKelamin' => $request->jenisKelamin,
-        //     ]);
-        //     return redirect()->to('/');
-        // }
-=======
-        
-        return redirect()->to('/')->with('message', 'Berhasil diupdate');       
->>>>>>> 19b9dd9 (/)
-
     }
 
     /**
@@ -183,7 +169,8 @@ class DataGuruController extends Controller
         return redirect()->back()->with('message', 'Data guru berhasil dihapus');
     }
 
-    public function printRincian($nik) {
+    public function printRincian($nik)
+    {
         return Inertia::render('Data/PrintRincian', [
             'title' => 'Rincian',
             'dataGuru' => DataGuru::where('nik', $nik)->first(),
