@@ -1,7 +1,17 @@
 const PrintDataGuru = (props) => {
+
+  function CurrentDate() {
+  const date = new Date();
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();  
+}
   return (
     <>
       <div>
+        <h1 className="text-3xl">Rekapitulasi saldo</h1>
+        SMAKDA SMK N 2 PURBALINGGA
+        Per: <p>{`${day}/${month}/${year}`}</p>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>

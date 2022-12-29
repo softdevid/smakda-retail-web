@@ -6,7 +6,7 @@ use App\Http\Controllers\SaldoController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-use Excel;
+// use Excel;
 use Inertia\Inertia;
 
 /*
@@ -24,12 +24,12 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
-    // Route::post('/cetak-data', [DataGuruController::class, 'excel'])->name('home.excel');
-    Route::post('/cetak-data', function () {
-        $data = DB::table('data_gurus')->get();
+    Route::post('/cetak-data', [DataGuruController::class, 'excel'])->name('home.excel');
+    // Route::post('/cetak-data', function () {
+    //     $data = DB::table('data_gurus')->get();
 
-        return Excel::download($data, 'dataGuru.xlsx');
-    });
+    //     return Excel::download($data, 'dataGuru.xlsx');
+    // });
 
     Route::get('/data-guru/{nik}/edit', [DataGuruController::class, 'edit'])->name('guru.edit');
     Route::get('/data-guru/{nik}', [DataGuruController::class, 'show'])->name('guru.show');
