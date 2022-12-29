@@ -23,6 +23,7 @@ const Utama = (props) => {
   //   FileSaver.saveAs(new Blob([response.dataGuru]), "dataguru.xlsx");
   // }  
 
+  //untuk print data
   function handlePrintOtherPage() {
     const newWindow = window.open("/print-data");
     newWindow.onafterprint = () => {
