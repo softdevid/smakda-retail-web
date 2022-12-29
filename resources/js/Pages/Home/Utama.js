@@ -24,7 +24,7 @@ const Utama = (props) => {
 
   function exportToExcel() {
     axios
-      .get("/cetak-data", {
+      .post("/cetak-data", {
         responseType: "blob",
       })
       .then((response) => {
