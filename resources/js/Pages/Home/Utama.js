@@ -155,7 +155,7 @@ const Utama = (props) => {
               </tr>
             </thead>
             <tbody>
-              {search(props.dataGuru) ? (
+              {search(props.dataGuru).length > 0 ? (
                 search(props.dataGuru).map((data, i) => {
                   return (
                     <tr
@@ -210,9 +210,15 @@ const Utama = (props) => {
                     </tr>
                   );
                 })
+              ) : query !== "" ? (
+                <tr>
+                  <td colSpan="7">{`Tidak ada data dengan pencarian '${query}'`}</td>
+                </tr>
               ) : (
-                <p>Belum ada Data</p>
-              )}
+                <tr>
+                  <td colSpan="7">{`Tidak ada data`}</td>
+                </tr>
+              ) }
             </tbody>
           </table>
         </div>
