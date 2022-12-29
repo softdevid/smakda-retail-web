@@ -12,7 +12,6 @@ class DataExport implements FromCollection
      */
     public function collection()
     {
-
         return DataGuru::all();
     }
 }

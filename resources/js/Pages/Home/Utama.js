@@ -7,7 +7,7 @@ import React, { useState } from "react";
 
 const Utama = (props) => {
   const [query, setQuery] = useState("");
-  const keys = ["nama", "alamat"];
+  const keys = ["nama", "alamat","nik" ];
 
   const search = (data) => {
     return data.filter((item) =>
@@ -22,20 +22,20 @@ const Utama = (props) => {
     });
   }
 
-  function exportToExcel() {
-    axios
-      .post("/cetak-data", {
-        responseType: "blob",
-      })
-      .then((response) => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "dataguru.xlsx");
-        document.body.appendChild(link);
-        link.click();
-      });
-  }
+  // function exportToExcel() {
+  //   axios
+  //     .post("/cetak-data", {
+  //       responseType: "blob",
+  //     })
+  //     .then((response) => {
+  //       const url = window.URL.createObjectURL(new Blob([response.data]));
+  //       const link = document.createElement("a");
+  //       link.href = url;
+  //       link.setAttribute("download", "dataguru.xlsx");
+  //       document.body.appendChild(link);
+  //       link.click();
+  //     });
+  // }
   //untuk print data
   function handlePrintOtherPage() {
     const newWindow = window.open("/print-data");

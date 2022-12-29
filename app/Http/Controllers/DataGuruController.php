@@ -28,7 +28,7 @@ class DataGuruController extends Controller
 
     public function excel()
     {
-        $dataGuru = DataGuru::get();
+        $dataGuru = DataGuru::all();
         return Excel::download(new DataExport($dataGuru), 'dataguru.xlsx');
     }
 

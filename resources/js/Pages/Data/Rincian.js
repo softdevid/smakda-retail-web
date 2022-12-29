@@ -12,14 +12,18 @@ const Rincian = (props) => {
     window.open(`/print-rincian/${props.dataGuru.nik}`, '_blank', 'height=600,width=700');
   };
 
-  window.onbeforeprint = function () {
-    console.log('Mulai mencetak halaman...');
-  };
 
-  window.onafterprint = function () {
-    console.log('Selesai mencetak halaman. Menutup tab...');
-    window.close();
-  };
+  //untuk print data
+  function handlePrintOtherPage() {
+    const newWindow = window.open(`/print-rincian/${props.dataGuru.nik}`);
+    newWindow.onafterprint = () => {
+      newWindow.focus();
+      newWindow.close();
+    };
+    newWindow.onload = () => {
+      newWindow.print();
+    };
+  }
 
 
   return (
@@ -30,7 +34,7 @@ const Rincian = (props) => {
         <div className="text-center font-bold mx-auto my-4 text-2xl">
           <h1>Rincian Data</h1>
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center mx-auto">
           <div className="max-w-5xl bg-white p-4 rounded-lg overflow-hidden my-4">
             <div className="py-4 px-6">
               <div className="flex items-center mt-4 text-gray-700">
@@ -65,7 +69,7 @@ const Rincian = (props) => {
               &nbsp;
               <button
                 // href="/print"
-                type="button" onClick={handleClick}
+                type="button" onClick={handlePrintOtherPage}
                 className="text-white bg-lime-700 hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring-lime-800"
               >
                 Lanjut Print
