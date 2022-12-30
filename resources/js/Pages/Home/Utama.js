@@ -3,11 +3,13 @@ import Authenticated from "@/Layouts/Authenticated";
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
+import * as XLSX from 'xlsx';
 
 const Utama = (props) => {
   const [query, setQuery] = useState("");
-  const keys = ["nama", "alamat","nik" ];
+  const keys = ["nama", "alamat", "nik"];
 
   const search = (data) => {
     return data.filter((item) =>
@@ -36,6 +38,72 @@ const Utama = (props) => {
   //       link.click();
   //     });
   // }
+
+  // const [data, setData] = useState([]);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const datareq = await fetch('/cetak-data');
+  //     const datares = await datareq.json();
+  //     console.log(datares);
+  //     setData(datares);
+  //   }
+  //   getData();
+  // }, []);
+
+
+  //excel versi
+
+  // const ExportExcelButton = ({ data }) => {
+  //   const exportToExcel = (data) => {
+  //     const ws = XLSX.utils.aoa_to_sheet(data);
+  //     const wb = XLSX.utils.book_new();
+  //     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  //     XLSX.writeFile(wb, 'data.xlsx');
+  //   }
+
+  //   return (
+  //     <button onClick={() => exportToExcel(data)}>
+  //       Export to Excel
+  //     </button>
+  //   );
+  // }
+
+  // const [data, setData] = useState([
+  //   ['Column 1', 'Column 2', 'Column 3'],
+  //   ['Row 1 Cell 1', 'Row 1 Cell 2', 'Row 1 Cell 3'],
+  //   ['Row 2 Cell 1', 'Row 2 Cell 2', 'Row 2 Cell 3'],
+  // ]);
+
+
+  const exportToExcel = (data) => {
+    const ws = XLSX.utils.json_to_sheet(data);
+    // const ws = XLSX.utils.json_to_sheet(data, { header: ['NIK', 'Nama', 'Alamat', 'Jabatan', 'Jenis Kelamin', 'Sisa Saldo'] });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    XLSX.writeFile(wb, 'data.xlsx');
+  }
+
+  const exportData = async () => {
+    const response = await fetch('/cetak-data');
+    const jsonData = await response.json();
+    exportToExcel(jsonData);
+  }
+
+  // const exportToExcel = (data) => {
+  //   const ws = XLSX.utils.json_to_sheet(data, { header: ['NIK', 'Nama', 'Alamat', 'Jabatan', 'Jenis Kelamin', 'Sisa Saldo'] });
+  //   const wb = XLSX.utils.book_new();
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  //   XLSX.writeFile(wb, 'data.xlsx');
+  // }
+
+  // const exportData = async () => {
+  //   const response = await fetch('/cetak-data');
+  //   const jsonData = await response.json();
+  //   exportToExcel(jsonData);
+  // }
+
+
+
   //untuk print data
   function handlePrintOtherPage() {
     const newWindow = window.open("/print-data");
@@ -53,6 +121,9 @@ const Utama = (props) => {
       <div className="container mx-auto my-4">
         <div className="text-center font-bold mx-auto my-4 text-2xl">
           <h1>Data Guru</h1>
+          {/* <ExportExcelButton data={data} /> */}
+          {/* <exportData /> */}
+          <button onClick={exportData}>Export</button>
         </div>
         {/* start search field */}
         <div className="mt-1 mb-7 mx-auto max-w-xl">
@@ -97,13 +168,12 @@ const Utama = (props) => {
             Tambah Guru
           </Link>
           &nbsp;
-          <button
-            onClick={exportToExcel}
+          {/* <CSVLink data={data} filename="Rekapitulasi Saldo SMAKDA"
             type="button"
             className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
           >
             Export Excel
-          </button>
+          </CSVLink> */}
           &nbsp;
           <button
             onClick={handlePrintOtherPage}
@@ -218,7 +288,7 @@ const Utama = (props) => {
                 <tr>
                   <td colSpan="7">{`Tidak ada data`}</td>
                 </tr>
-              ) }
+              )}
             </tbody>
           </table>
         </div>

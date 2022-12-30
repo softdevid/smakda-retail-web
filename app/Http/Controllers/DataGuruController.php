@@ -28,8 +28,9 @@ class DataGuruController extends Controller
 
     public function excel()
     {
-        $dataGuru = DataGuru::all();
-        return Excel::download(new DataExport($dataGuru), 'dataguru.xlsx');
+        $dataGuru = DataGuru::select('nik', 'nama', 'alamat', 'jabatan', 'jenisKelamin', 'sisaSaldo')->get();
+        return response()->json($dataGuru);
+        // return Excel::download(new DataExport($dataGuru), 'dataguru.xlsx');
     }
 
     public function printData()

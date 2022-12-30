@@ -29,6 +29,8 @@
     "dependencies": {
         "@heroicons/react": "^2.0.13",
         "js-xlsx": "^0.8.22",
+        "prop-types": "^15.8.1",
+        "react-csv": "^2.2.2",
         "xlsx": "^0.18.5"
     }
 }

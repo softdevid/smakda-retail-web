@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
-    Route::post('/cetak-data', [DataGuruController::class, 'excel'])->name('home.excel');
+    Route::get('/cetak-data', [DataGuruController::class, 'excel'])->name('home.excel');
     // Route::post('/cetak-data', function () {
     //     $data = DB::table('data_gurus')->get();
 
