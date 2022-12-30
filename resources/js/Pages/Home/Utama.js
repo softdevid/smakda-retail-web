@@ -208,9 +208,6 @@ const Utama = (props) => {
                   Nama
                 </th>
                 <th scope="col" className="py-3 px-6">
-                  Alamat
-                </th>
-                <th scope="col" className="py-3 px-6">
                   Jabatan
                 </th>
                 <th scope="col" className="py-3 px-6">
@@ -239,19 +236,18 @@ const Utama = (props) => {
                         {data.nik}
                       </th>
                       <td className="py-4 px-6">{data.nama}</td>
-                      <td className="py-4 px-6">{data.alamat}</td>
                       <td className="py-4 px-6">{data.jabatan}</td>
                       <td className="py-4 px-6">{data.jenisKelamin}</td>
                       <td className="py-4 px-6">
                         {formatRupiah(data.sisaSaldo)}
                       </td>
-                      <td className="flex items-center py-4 px-6 space-x-3">
+                      <td className="flex items-center py-4 px-6 space-x-2">
                         <Link
                           href={`/deposit-belanja/${data.nik}`}
                           type="button"
                           className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                         >
-                          Deposit / Belanja
+                          Deposit/Belanja
                         </Link>
                         <Link
                           href={`/data-guru/${data.nik}`}
@@ -275,6 +271,12 @@ const Utama = (props) => {
                           className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                         >
                           Hapus
+                        </Link>
+                        <Link
+                          href={`/data-guru/history/${data.nik}`}
+                          className="focus:outline-none text-white bg-gray-700 hover:bg-gray-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900"
+                        >
+                          Histori
                         </Link>
                       </td>
                     </tr>

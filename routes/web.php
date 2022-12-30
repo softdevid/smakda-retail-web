@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DataGuruController;
 use App\Http\Controllers\DataKeuanganController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\SaldoController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/deposit/store', [DataKeuanganController::class, 'deposit'])->name('deposit.store');
     Route::post('/belanja/store', [DataKeuanganController::class, 'belanja'])->name('belanja.store');
 
-    Route::get('/cek-saldo/bulan/{nik}/{bulan}', [SaldoController::class, 'cekSaldoBulan'])->name('cekSaldoBulan');
+    Route::get('/data-guru/history/{nik}', [HistoryController::class, 'index'])->name('history');
 });
 
 require __DIR__ . '/auth.php';
