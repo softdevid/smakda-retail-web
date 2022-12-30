@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,8 +36,13 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->reportable(function (Exception $e) {
+            $exception = FlattenException::create($e);
+            $statusCode = $exception->getStatusCode($exception);
+
+            if ($statusCode === 400 or $statusCode === 500) {
+                return response()->view('errors.' . $statusCode, [], $statusCode);
+            }
         });
     }
 }
