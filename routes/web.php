@@ -3,11 +3,7 @@
 use App\Http\Controllers\DataGuruController;
 use App\Http\Controllers\DataKeuanganController;
 use App\Http\Controllers\SaldoController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-// use Excel;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,43 +17,26 @@ use Inertia\Inertia;
 */
 
 Route::middleware('auth')->group(function () {
-
-
     Route::get('/', [DataGuruController::class, 'index'])->name('home.index');
+    Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.create');
+    Route::post('/tambahdata/store', [DataGuruController::class, 'store'])->name('home.store');
+    Route::get('/rincian', [DataGuruController::class, 'rincian'])->name('home.rincian');
     Route::get('/cetak-data', [DataGuruController::class, 'excel'])->name('home.excel');
-    // Route::post('/cetak-data', function () {
-    //     $data = DB::table('data_gurus')->get();
 
-    //     return Excel::download($data, 'dataGuru.xlsx');
-    // });
+    Route::get('/print-rincian/{nik}', [DataGuruController::class, 'printRincian'])->name('print.rincian');
+    Route::get('/print-data', [DataGuruController::class, 'printData'])->name('print.dataguru');
 
-    Route::get('/data-guru/{nik}/edit', [DataGuruController::class, 'edit'])->name('guru.edit');
     Route::get('/data-guru/{nik}', [DataGuruController::class, 'show'])->name('guru.show');
+    Route::get('/data-guru/{nik}/edit', [DataGuruController::class, 'edit'])->name('guru.edit');
     Route::post('/data-guru/update', [DataGuruController::class, 'update'])->name('guru.update');
     Route::delete('/data-guru/delete/{nik}', [DataGuruController::class, 'destroy'])->name('guru.delete');
 
+    Route::get('/deposit-belanja/{nik}', [DataKeuanganController::class, 'index'])->name('saldo.index');
     Route::post('/deposit-belanja/store', [DataKeuanganController::class, 'saldo'])->name('saldo.store');
     Route::post('/deposit/store', [DataKeuanganController::class, 'deposit'])->name('deposit.store');
     Route::post('/belanja/store', [DataKeuanganController::class, 'belanja'])->name('belanja.store');
 
     Route::get('/cek-saldo/bulan/{nik}/{bulan}', [SaldoController::class, 'cekSaldoBulan'])->name('cekSaldoBulan');
-
-
-    Route::get('/rincian', [DataGuruController::class, 'rincian'])->name('home.rincian');
-    Route::get('/tambahdata', [DataGuruController::class, 'create'])->name('home.create');
-
-    Route::get('/print-rincian/{nik}', [DataGuruController::class, 'printRincian'])->name('print.rincian');
-    Route::get('/print-data', [DataGuruController::class, 'printData'])->name('print.dataguru');
-
-
-    Route::get('/deposit-belanja/{nik}', [DataKeuanganController::class, 'index'])->name('home.index');
-
-    Route::post('/tambahdata/store', [DataGuruController::class, 'store'])->name('home.store');
-    Route::get('/deposit', [DataKeuanganController::class, 'index'])->name('home.index');
 });
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
