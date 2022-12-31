@@ -80,7 +80,7 @@ const Utama = (props) => {
     // const ws = XLSX.utils.json_to_sheet(data, { header: ['NIK', 'Nama', 'Alamat', 'Jabatan', 'Jenis Kelamin', 'Sisa Saldo'] });
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-    XLSX.writeFile(wb, 'data.xlsx');
+    XLSX.writeFile(wb, 'Rekapitulasi Saldo SMAKDA RETAIL.xlsx');
   }
 
   const exportData = async () => {
@@ -88,21 +88,6 @@ const Utama = (props) => {
     const jsonData = await response.json();
     exportToExcel(jsonData);
   }
-
-  // const exportToExcel = (data) => {
-  //   const ws = XLSX.utils.json_to_sheet(data, { header: ['NIK', 'Nama', 'Alamat', 'Jabatan', 'Jenis Kelamin', 'Sisa Saldo'] });
-  //   const wb = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-  //   XLSX.writeFile(wb, 'data.xlsx');
-  // }
-
-  // const exportData = async () => {
-  //   const response = await fetch('/cetak-data');
-  //   const jsonData = await response.json();
-  //   exportToExcel(jsonData);
-  // }
-
-
 
   //untuk print data
   function handlePrintOtherPage() {
@@ -123,7 +108,6 @@ const Utama = (props) => {
           <h1>Data Guru</h1>
           {/* <ExportExcelButton data={data} /> */}
           {/* <exportData /> */}
-          <button onClick={exportData}>Export</button>
         </div>
         {/* start search field */}
         <div className="mt-1 mb-7 mx-auto max-w-xl">
@@ -168,12 +152,12 @@ const Utama = (props) => {
             Tambah Guru
           </Link>
           &nbsp;
-          {/* <CSVLink data={data} filename="Rekapitulasi Saldo SMAKDA"
+          <button onClick={exportData} filename="Rekapitulasi Saldo SMAKDA"
             type="button"
             className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-xs md:text-sm p-1 md:p-2 text-center mr-3 md:mr-0 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
           >
             Export Excel
-          </CSVLink> */}
+          </button>
           &nbsp;
           <button
             onClick={handlePrintOtherPage}

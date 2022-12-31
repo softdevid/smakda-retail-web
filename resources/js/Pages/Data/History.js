@@ -1,177 +1,149 @@
 import Main from "@/Components/Guru/Main";
-
+import { Link } from "@inertiajs/inertia-react";
+import { useState } from "react";
 
 const History = (props) => {
+
   console.log(props)
   return (
     <>
-      <div className="container mx-auto my-4">
-
-        {props.flash.message &&
-          <div className="mx-5">
-            <div className="flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
-              <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
-              <span className="sr-only">Info</span>
-              <div>
-                <span className="font-medium">{props.flash.message}</span>
-              </div>
-            </div>
-          </div>
-        }
-
-        {props.flash.error &&
-          <div className="mx-5">
-            <div className="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
-              <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
-              <span className="sr-only">Info</span>
-              <div>
-                <span className="font-medium">{props.flash.error}</span>
-              </div>
-            </div>
-          </div>
-        }
+      <div className="container mx-auto my-4" id="print-content">
         <div className="text-center font-bold mx-auto my-4 text-2xl">
-          <h1>Deposit & Pengeluaran</h1>
+          <h1>Rincian Data</h1>
         </div>
-        <div className="m-4">
-          <div className="bg-white rounded-lg grid md:grid-cols-2 p-4 gap-4">
-            <div>
-              <div className="flex justify-center items-center">
-                <div className="max-w-sm bg-white rounded-lg overflow-hidden my-4">
-                  <div className="py-4 px-6">
-                    <div className="flex items-center mt-4 text-gray-700">
-                      <h1 className="px-2 text-sm">Nama: {props.dataKeuangan.nama}</h1>
-                    </div>
-                    <div className="flex items-center mt-4 text-gray-700">
-                      <h1 className="px-2 text-sm">NIK: {props.dataKeuangan.nik}</h1>
-                    </div>
-                    <div className="flex items-center mt-4 text-gray-700">
-                      <h1 className="px-2 text-sm">Jabatan: {props.dataKeuangan.jabatan}</h1>
-                    </div>
-                    <div className="flex items-center mt-4 text-gray-700">
-                      <h1 className="px-2 text-sm">Jenis Kelamin: {props.dataKeuangan.jenisKelamin}</h1>
-                    </div>
-                    <div className="flex items-center mt-4 text-gray-700">
-                      <h1 className="px-2 text-sm">sisa Saldo: {props.dataKeuangan.sisaSaldo}</h1>
-                    </div>
-                    <div className="flex items-center mt-4 text-gray-700">
-                      <h1 className="px-2 text-sm">Alamat:</h1>
-                      <p>{props.dataKeuangan.alamat}</p>
-                    </div>
-                  </div>
-                </div>
+        <div className="flex justify-center items-center mx-auto">
+          <div className="max-w-5xl bg-white p-4 rounded-lg overflow-hidden">
+            <div className="px-6">
+              <div className="flex items-center mt-4 text-gray-700">
+                <h1 className="px-2 text-lg">NIK : {props.dataGuru.nik}</h1>
+              </div>
+              <div className="flex items-center mt-4 text-gray-700">
+                <h1 className="px-2 text-lg">Nama : {props.dataGuru.nama}</h1>
+              </div>
+              <div className="flex items-center mt-4 text-gray-700">
+                <h1 className="px-2 text-lg">Sisa Saldo : {props.dataGuru.sisaSaldo}</h1>
               </div>
             </div>
             <div>
-
-              <div className="text-center font-bold mx-auto my-4 text-2xl">
-                <h1>Deposit</h1>
-              </div>
-
-              {/* <form> */}
-              <div className="grid gap-6 mb-6 px-4 md:grid-cols-1">
-                <form onSubmit={handleSubmitDeposit}>
-                  <div className="mb-2">
-                    <label
-                      htmlFor="saldo"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Saldo
-                    </label>
-                    <input
-                      type="text"
-                      name="saldo"
-                      id="saldo"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Saldo"
-                      onChange={(saldo) => setSaldo(saldo.target.value)} value={saldo}
-                    />
-                    {props.errors.saldo && <div className="text-red-600">{props.errors.saldo}</div>}
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="tanggal"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Tanggal Saldo
-                    </label>
-                    <input
-                      type="date"
-                      name="tanggalSaldo"
-                      id="tanggalSaldo"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      onChange={(tanggalSaldo) => setTanggalSaldo(tanggalSaldo.target.value)} value={tanggalSaldo}
-                    />
-                    {props.errors.tanggalSaldo && <div className="text-red-600">{props.errors.tanggalSaldo}</div>}
-                  </div>
-                  <button
-                    type="submit" as="button"
-                    className="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Submit
-                  </button>
-                </form>
-
-                <div className="text-center font-bold mx-auto my-4 text-2xl">
-                  <h1>Pengeluaran</h1>
-                </div>
-
-                <form onSubmit={handleSubmitBelanja}>
-                  <div className="mb-2">
-                    <label
-                      htmlFor="belanja"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Belanja
-                    </label>
-                    <input
-                      type="text"
-                      name="belanja"
-                      id="belanja"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Belanja"
-                      onChange={(belanja) => setBelanja(belanja.target.value)}
-                    />
-                    {props.errors.belanja && <div className="text-red-600">{props.errors.belanja}</div>}
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="tanggalBelanja"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Tanggal Belanja
-                    </label>
-                    <input
-                      type="date"
-                      name="tanggalBelanja"
-                      id="tanggalBelanja"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      onChange={(tanggalBelanja) => setTanggalBelanja(tanggalBelanja.target.value)}
-                    />
-                    {props.errors.tanggalBelanja && <div className="text-red-600">{props.errors.tanggalBelanja}</div>}
-                  </div>
-
-                  <div className="mt-5">
-                    <button
-                      type="submit"
-                      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    >
-                      Submit
-                    </button>
-                    &nbsp;
-                    <Link
-                      href="/"
-                      type="button"
-                      className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-                    >
-                      Kembali
-                    </Link>
-                  </div>
-                </form>
-
-              </div>
+              &nbsp;
+              <Link
+                href="/"
+                type="button"
+                className="ml-5 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+              >
+                Kembali
+              </Link>
             </div>
           </div>
+        </div>
+
+        <div>
+
+          <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+            <div className="flex justify-between items-center pb-4">
+              <div>
+                <button id="dropdownRadioButton" data-dropdown-toggle="dropdownRadio" className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                  <svg className="mr-2 w-4 h-4 text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"></path></svg>
+                  Last 30 days
+                  <svg className="ml-2 w-3 h-3" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div id="dropdownRadio" className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(522.5px, 3847.5px, 0px);">
+                  <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <input id="filter-radio-example-1" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <label htmlFor="filter-radio-example-1" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last day</label>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <input checked="" id="filter-radio-example-2" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <label htmlFor="filter-radio-example-2" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last 7 days</label>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <input id="filter-radio-example-3" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <label htmlFor="filter-radio-example-3" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last 30 days</label>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <input id="filter-radio-example-4" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <label htmlFor="filter-radio-example-4" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last month</label>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <input id="filter-radio-example-5" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                        <label htmlFor="filter-radio-example-5" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last year</label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <label htmlFor="table-search" className="sr-only">Search</label>
+              <div className="relative">
+                <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                  <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
+                </div>
+                <input type="text" id="table-search" className="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search htmlFor items" />
+              </div>
+            </div>
+            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="p-4">
+                    <div className="flex items-center">
+                      <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                      <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
+                    </div>
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Product name
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Color
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Category
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Price
+                  </th>
+                  <th scope="col" className="py-3 px-6">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <td className="p-4 w-4">
+                    <div className="flex items-center">
+                      <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                      <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
+                    </div>
+                  </td>
+                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple MacBook Pro 17"
+                  </th>
+                  <td className="py-4 px-6">
+                    Sliver
+                  </td>
+                  <td className="py-4 px-6">
+                    Laptop
+                  </td>
+                  <td className="py-4 px-6">
+                    $2999
+                  </td>
+                  <td className="py-4 px-6">
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
       </div>
     </>
