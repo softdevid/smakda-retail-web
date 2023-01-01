@@ -1,10 +1,59 @@
 import Main from "@/Components/Guru/Main";
 import { Link } from "@inertiajs/inertia-react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+
+
 
 const History = (props) => {
+  console.log(props);
+  const [query, setQuery] = useState("");
+  const keys = ["saldo", "tanggalSaldo", "nik"];
 
-  console.log(props)
+
+  const search = (data) => {
+    return data.filter((item) =>
+      keys.some((key) => item[key].toString().toLowerCase().includes(query))
+    );
+  };
+
+  const [queryBelanja, setQueryBelanja] = useState("");
+  const keysBelanja = ["belanja", "tanggalBelanja", "nik"];
+
+  const searchBelanja = (dataBelanja) => {
+    return dataBelanja.filter((item) =>
+      keysBelanja.some((key) => item[key].toString().toLowerCase().includes(queryBelanja))
+    );
+  };
+
+  const [page, setPage] = useState(1);
+  const data = props.dataDeposit;
+  const dataBelanja = props.dataBelanja;
+  const limit = 10;
+  const totalPages = Math.ceil(data.length / limit);
+  const totalPagesBelanja = Math.ceil(dataBelanja.length / limit);
+
+  const paginateData = (pageNumber) => {
+    setPage(pageNumber);
+  }
+
+  const [value, setValue] = useState('');
+
+  const formatRupiah = (input) => {
+    const numberString = input.toString().replace(/[^,\d]/g, '');
+    const split = numberString.split(',');
+    const sisa = split[0].length % 3;
+    let rupiah = split[0].substr(0, sisa);
+    let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    if (ribuan) {
+      const separator = sisa ? '.' : '';
+      rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+    return rupiah;
+  }
+
   return (
     <>
       <div className="container mx-auto my-4" id="print-content">
@@ -36,114 +85,154 @@ const History = (props) => {
             </div>
           </div>
         </div>
+      </div>
 
-        <div>
-
-          <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
-            <div className="flex justify-between items-center pb-4">
-              <div>
-                <button id="dropdownRadioButton" data-dropdown-toggle="dropdownRadio" className="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
-                  <svg className="mr-2 w-4 h-4 text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"></path></svg>
-                  Last 30 days
-                  <svg className="ml-2 w-3 h-3" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                </button>
-                <div id="dropdownRadio" className="hidden z-10 w-48 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" data-popper-reference-hidden="" data-popper-escaped="" data-popper-placement="top" style="position: absolute; inset: auto auto 0px 0px; margin: 0px; transform: translate3d(522.5px, 3847.5px, 0px);">
-                  <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
-                    <li>
-                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input id="filter-radio-example-1" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                        <label htmlFor="filter-radio-example-1" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last day</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input checked="" id="filter-radio-example-2" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                        <label htmlFor="filter-radio-example-2" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last 7 days</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input id="filter-radio-example-3" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                        <label htmlFor="filter-radio-example-3" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last 30 days</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input id="filter-radio-example-4" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                        <label htmlFor="filter-radio-example-4" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last month</label>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                        <input id="filter-radio-example-5" type="radio" value="" name="filter-radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                        <label htmlFor="filter-radio-example-5" className="ml-2 w-full text-sm font-medium text-gray-900 rounded dark:text-gray-300">Last year</label>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <label htmlFor="table-search" className="sr-only">Search</label>
-              <div className="relative">
-                <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                  <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
-                </div>
-                <input type="text" id="table-search" className="block p-2 pl-10 w-80 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search htmlFor items" />
-              </div>
-            </div>
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <div className="grid grid-cols-2 gap-8">
+        {/* deposit */}
+        <div className="overflow-x-auto relative sm:rounded-lg mx-3">
+          <input
+            type="text"
+            id="search-deposit"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Cari deposit"
+            onChange={(e) => setQuery(e.target.value)}
+            required
+          />
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="py-3 px-6">
+                  NIK
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Tanggal Saldo
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Saldo
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Aksi
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {search(props.dataDeposit).length > 0 ? (
+                search(props.dataDeposit).slice((page - 1) * limit, page * limit).map((data, i) => {
+                  return (
+                    <tr key={i}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {data.nik}
+                      </th>
+                      <td className="py-4 px-6">
+                        {data.saldo}
+                      </td>
+                      <td className="py-4 px-6">
+                        {data.tanggalSaldo}
+                      </td>
+                      <td className="py-4 px-6">
+                        <button>Ubah</button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : query !== "" ? (
                 <tr>
-                  <th scope="col" className="p-4">
-                    <div className="flex items-center">
-                      <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                      <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
-                    </div>
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Product name
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Color
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Category
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Price
-                  </th>
-                  <th scope="col" className="py-3 px-6">
-                    Action
-                  </th>
+                  <td colSpan="7">{`Tidak ada data dengan pencarian '${query}'`}</td>
                 </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td className="p-4 w-4">
-                    <div className="flex items-center">
-                      <input id="checkbox-table-search-1" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                      <label htmlFor="checkbox-table-search-1" className="sr-only">checkbox</label>
-                    </div>
-                  </td>
-                  <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
-                  </th>
-                  <td className="py-4 px-6">
-                    Sliver
-                  </td>
-                  <td className="py-4 px-6">
-                    Laptop
-                  </td>
-                  <td className="py-4 px-6">
-                    $2999
-                  </td>
-                  <td className="py-4 px-6">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                  </td>
+              ) : (
+                <tr>
+                  <td colSpan="7">{`Tidak ada data`}</td>
                 </tr>
-              </tbody>
-            </table>
+              )}
+            </tbody>
+          </table>
+          <div>
+            {page > 1 &&
+              <button className="p-2 bg-gray-800 text-white text-left" onClick={() => paginateData(page - 1)}>Previous</button>
+            }
+            {page < totalPages &&
+              <button className="p-2 bg-gray-800 text-white text-end" onClick={() => paginateData(page + 1)}>Next</button>
+            }
           </div>
 
+        </div>
+
+        {/* BELANJA */}
+        <div className="overflow-x-auto relative sm:rounded-lg mx-3">
+          <input
+            type="text"
+            id="search-belanja"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Cari belanja"
+            onChange={(e) => setQueryBelanja(e.target.value)}
+            required
+          />
+          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" className="py-3 px-6">
+                  NIK
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Tanggal Belanja
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Belanja
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Aksi
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {searchBelanja(props.dataBelanja).length > 0 ? (
+                searchBelanja(props.dataBelanja).slice((page - 1) * limit, page * limit).map((dataBelanja, i) => {
+                  return (
+                    <tr key={i}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
+                      <th
+                        scope="row"
+                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {dataBelanja.nik}
+                      </th>
+                      <td className="py-4 px-6">
+                        {dataBelanja.belanja}
+                      </td>
+                      <td className="py-4 px-6">
+                        {dataBelanja.tanggalBelanja}
+                      </td>
+                      <td className="py-4 px-6">
+                        <button className="p-2 bg-yellow-400 text-white-">Ubah</button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : queryBelanja !== "" ? (
+                <tr>
+                  <td colSpan="7">{`Tidak ada data dengan pencarian '${queryBelanja}'`}</td>
+                </tr>
+              ) : (
+                <tr>
+                  <td colSpan="7">{`Tidak ada data`}</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <div>
+            {page > 1 &&
+              <button className="p-2 bg-gray-800 text-white text-left" onClick={() => paginateData(page - 1)}>Previous</button>
+            }
+            {page < totalPages &&
+              <button className="p-2 bg-gray-800 text-white text-end" onClick={() => paginateData(page + 1)}>Next</button>
+            }
+          </div>
         </div>
       </div>
     </>

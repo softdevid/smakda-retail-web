@@ -31,6 +31,9 @@
         "js-xlsx": "^0.8.22",
         "prop-types": "^15.8.1",
         "react-csv": "^2.2.2",
+        "react-infinite-scroll-component": "^6.1.0",
+        "react-paginate": "^8.1.4",
+        "react-search-input": "^0.11.3",
         "xlsx": "^0.18.5"
     }
 }

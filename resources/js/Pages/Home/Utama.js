@@ -1,10 +1,6 @@
 import Main from "@/Components/Guru/Main";
-import Authenticated from "@/Layouts/Authenticated";
-import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { CSVLink } from "react-csv";
 import * as XLSX from 'xlsx';
 
 const Utama = (props) => {

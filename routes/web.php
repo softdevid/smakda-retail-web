@@ -4,6 +4,8 @@ use App\Http\Controllers\DataGuruController;
 use App\Http\Controllers\DataKeuanganController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\SaldoController;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +40,23 @@ Route::middleware('auth')->group(function () {
     Route::post('/belanja/store', [DataKeuanganController::class, 'belanja'])->name('belanja.store');
 
     Route::get('/data-guru/history/{nik}', [HistoryController::class, 'index'])->name('history');
+    Route::get('/history/deposit', [HistoryController::class, 'dataHistoryDeposit'])->name('dataHistoryDeposit');
+
+    // Route::get('/history/deposit', function (Request $request) {
+    //     $search = $request->input('search');
+    //     $page = $request->input('page');
+    //     $limit = 10;
+    //     $offset = ($page - 1) * $limit;
+
+    //     $data = DB::table('deposits')
+    //         ->where('nik', 'like', '%' . $search . '%')
+    //         ->orWhere('tanggalSaldo', 'like', '%' . $search . '%')
+    //         ->offset($offset)
+    //         ->limit($limit)
+    //         ->get();
+
+    //     return response()->json($data);
+    // });
 });
 
 require __DIR__ . '/auth.php';
