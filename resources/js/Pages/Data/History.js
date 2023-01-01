@@ -1,14 +1,26 @@
 import Main from "@/Components/Guru/Main";
+import { Dialog, Transition } from "@headlessui/react";
 import { Link } from "@inertiajs/inertia-react";
-import React, { useEffect, useState } from "react";
-
-
+import React, { Fragment, useEffect, useState } from "react";
 
 const History = (props) => {
   console.log(props);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalData, setModalData] = useState({});
+
+  const handleModalOpen = (data) => {
+    setModalData(data);
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalData({});
+    setIsModalOpen(false);
+  };
+
   const [query, setQuery] = useState("");
   const keys = ["saldo", "tanggalSaldo", "nik"];
-
 
   const search = (data) => {
     return data.filter((item) =>
@@ -21,7 +33,9 @@ const History = (props) => {
 
   const searchBelanja = (dataBelanja) => {
     return dataBelanja.filter((item) =>
-      keysBelanja.some((key) => item[key].toString().toLowerCase().includes(queryBelanja))
+      keysBelanja.some((key) =>
+        item[key].toString().toLowerCase().includes(queryBelanja)
+      )
     );
   };
 
@@ -34,25 +48,25 @@ const History = (props) => {
 
   const paginateData = (pageNumber) => {
     setPage(pageNumber);
-  }
+  };
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   const formatRupiah = (input) => {
-    const numberString = input.toString().replace(/[^,\d]/g, '');
-    const split = numberString.split(',');
+    const numberString = input.toString().replace(/[^,\d]/g, "");
+    const split = numberString.split(",");
     const sisa = split[0].length % 3;
     let rupiah = split[0].substr(0, sisa);
     let ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
     if (ribuan) {
-      const separator = sisa ? '.' : '';
-      rupiah += separator + ribuan.join('.');
+      const separator = sisa ? "." : "";
+      rupiah += separator + ribuan.join(".");
     }
 
-    rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+    rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
     return rupiah;
-  }
+  };
 
   return (
     <>
@@ -70,14 +84,16 @@ const History = (props) => {
                 <h1 className="px-2 text-lg">Nama : {props.dataGuru.nama}</h1>
               </div>
               <div className="flex items-center mt-4 text-gray-700">
-                <h1 className="px-2 text-lg">Sisa Saldo : {props.dataGuru.sisaSaldo}</h1>
+                <h1 className="px-2 text-lg">
+                  Sisa Saldo : {props.dataGuru.sisaSaldo}
+                </h1>
               </div>
             </div>
             <div>
               &nbsp;
               <Link
                 href="/"
-                type="button"
+                as="button"
                 className="ml-5 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
               >
                 Kembali
@@ -117,29 +133,40 @@ const History = (props) => {
             </thead>
             <tbody>
               {search(props.dataDeposit).length > 0 ? (
-                search(props.dataDeposit).slice((page - 1) * limit, page * limit).map((data, i) => {
-                  return (
-                    <tr key={i}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                search(props.dataDeposit)
+                  .slice((page - 1) * limit, page * limit)
+                  .map((data, i) => {
+                    return (
+                      <tr
+                        key={i}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
-                        {data.nik}
-                      </th>
-                      <td className="py-4 px-6">
-                        {data.saldo}
-                      </td>
-                      <td className="py-4 px-6">
-                        {data.tanggalSaldo}
-                      </td>
-                      <td className="py-4 px-6">
-                        <button>Ubah</button>
-                      </td>
-                    </tr>
-                  );
-                })
+                        <th
+                          scope="row"
+                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {data.nik}
+                        </th>
+                        <td className="py-4 px-6">{data.tanggalSaldo}</td>
+                        <td className="py-4 px-6">{data.saldo}</td>
+                        <td className="py-4 px-6">
+                          <button
+                            type="button"
+                            className="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                            onClick={() =>
+                              handleModalOpen({
+                                judul: "Saldo",
+                                tanggalSaldo: data.tanggalSaldo,
+                                saldo: data.saldo,
+                              })
+                            }
+                          >
+                            Ubah
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
               ) : query !== "" ? (
                 <tr>
                   <td colSpan="7">{`Tidak ada data dengan pencarian '${query}'`}</td>
@@ -152,14 +179,23 @@ const History = (props) => {
             </tbody>
           </table>
           <div>
-            {page > 1 &&
-              <button className="p-2 bg-gray-800 text-white text-left" onClick={() => paginateData(page - 1)}>Previous</button>
-            }
-            {page < totalPages &&
-              <button className="p-2 bg-gray-800 text-white text-end" onClick={() => paginateData(page + 1)}>Next</button>
-            }
+            {page > 1 && (
+              <button
+                className="p-2 bg-gray-800 text-white text-left"
+                onClick={() => paginateData(page - 1)}
+              >
+                Previous
+              </button>
+            )}
+            {page < totalPages && (
+              <button
+                className="p-2 bg-gray-800 text-white text-end"
+                onClick={() => paginateData(page + 1)}
+              >
+                Next
+              </button>
+            )}
           </div>
-
         </div>
 
         {/* BELANJA */}
@@ -191,29 +227,42 @@ const History = (props) => {
             </thead>
             <tbody>
               {searchBelanja(props.dataBelanja).length > 0 ? (
-                searchBelanja(props.dataBelanja).slice((page - 1) * limit, page * limit).map((dataBelanja, i) => {
-                  return (
-                    <tr key={i}
-                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    >
-                      <th
-                        scope="row"
-                        className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                searchBelanja(props.dataBelanja)
+                  .slice((page - 1) * limit, page * limit)
+                  .map((dataBelanja, i) => {
+                    return (
+                      <tr
+                        key={i}
+                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                       >
-                        {dataBelanja.nik}
-                      </th>
-                      <td className="py-4 px-6">
-                        {dataBelanja.belanja}
-                      </td>
-                      <td className="py-4 px-6">
-                        {dataBelanja.tanggalBelanja}
-                      </td>
-                      <td className="py-4 px-6">
-                        <button className="p-2 bg-yellow-400 text-white-">Ubah</button>
-                      </td>
-                    </tr>
-                  );
-                })
+                        <th
+                          scope="row"
+                          className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          {dataBelanja.nik}
+                        </th>
+                        <td className="py-4 px-6">
+                          {dataBelanja.tanggalBelanja}
+                        </td>
+                        <td className="py-4 px-6">{dataBelanja.belanja}</td>
+                        <td className="py-4 px-6">
+                          <button
+                            type="button"
+                            className="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                            onClick={() =>
+                              handleModalOpen({
+                                judul: "Belanja",
+                                tanggalBelanja: dataBelanja.tanggalBelanja,
+                                belanja: dataBelanja.belanja,
+                              })
+                            }
+                          >
+                            Ubah
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
               ) : queryBelanja !== "" ? (
                 <tr>
                   <td colSpan="7">{`Tidak ada data dengan pencarian '${queryBelanja}'`}</td>
@@ -226,17 +275,106 @@ const History = (props) => {
             </tbody>
           </table>
           <div>
-            {page > 1 &&
-              <button className="p-2 bg-gray-800 text-white text-left" onClick={() => paginateData(page - 1)}>Previous</button>
-            }
-            {page < totalPages &&
-              <button className="p-2 bg-gray-800 text-white text-end" onClick={() => paginateData(page + 1)}>Next</button>
-            }
+            {page > 1 && (
+              <button
+                className="p-2 bg-gray-800 text-white text-left"
+                onClick={() => paginateData(page - 1)}
+              >
+                Previous
+              </button>
+            )}
+            {page < totalPages && (
+              <button
+                className="p-2 bg-gray-800 text-white text-end"
+                onClick={() => paginateData(page + 1)}
+              >
+                Next
+              </button>
+            )}
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        closeModal={handleModalClose}
+        data={modalData}
+      />
     </>
-  )
+  );
+};
+
+function Modal(props) {
+  const { data } = props;
+
+  const closeModal = () => {
+    props.closeModal();
+  };
+
+  return (
+    <>
+      <Transition appear show={props.isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25"></div>
+          </Transition.Child>
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-center align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-slate-800"
+                  >
+                    {`Detail Histori ${data.judul}`}
+                  </Dialog.Title>
+
+                  <Dialog.Description as="div">
+                    <div className="flex flex-col items-center space-y-2">
+                      {data.judul === "Saldo" ? (
+                        <div>
+                          <div>Saldo : {data.saldo}</div>
+                          <div>Tanggal Saldo : {data.tanggalSaldo}</div>
+                        </div>
+                      ) : (
+                        <div>
+                          <div>Belanja : {data.belanja}</div>
+                          <div>Tanggal Belanja : {data.tanggalBelanja}</div>
+                        </div>
+                      )}
+                    </div>
+                  </Dialog.Description>
+
+                  <button
+                    type="button"
+                    className="ml-5 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                    onClick={closeModal}
+                  >
+                    Batal
+                  </button>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
+  );
 }
 
 History.layout = (page) => <Main children={page} />;
