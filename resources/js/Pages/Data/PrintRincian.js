@@ -6,6 +6,13 @@ const PrintRincian = (props) => {
     button.parentNode.removeChild(button);
   };
 
+  function formatRupiah(angka) {
+    return angka.toLocaleString("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    });
+  }
+
 
   return (
     <>
@@ -32,7 +39,7 @@ const PrintRincian = (props) => {
                 <h1 className="px-2 text-lg">Jenis Kelamin : {props.dataGuru.jenisKelamin}</h1>
               </div>
               <div className="flex items-center mt-4 text-gray-700">
-                <h1 className="px-2 text-lg">Sisa Saldo : {props.dataGuru.sisaSaldo}</h1>
+                <h1 className="px-2 text-lg">Sisa Saldo : {formatRupiah(props.dataGuru.sisaSaldo)}</h1>
               </div>
             </div>
             <div>

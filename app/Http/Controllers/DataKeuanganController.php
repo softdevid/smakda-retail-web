@@ -55,6 +55,8 @@ class DataKeuanganController extends Controller
 
         if ($request->belanja > $dataGuru->sisaSaldo) {
             return back()->with('error', 'Belanja lebih dari sisa saldo');
+        } elseif ($request->tanggalBelanja > $dataGuru->tanggalBelanja) {
+            return back()->with('error', 'Tanggal kurang dari saldo');
         } else {
             Belanja::create([
                 'nik' => $request->nik,
@@ -63,7 +65,6 @@ class DataKeuanganController extends Controller
             ]);
             return back()->with('message', 'Berhasil menambahkan belanja/pengeluaran');
         }
-
     }
 
 

@@ -2,6 +2,7 @@ import Main from "@/Components/Guru/Main";
 import { Dialog, Transition } from "@headlessui/react";
 import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
+import numeral from "numeral";
 import React, { Fragment, useEffect, useState } from "react";
 
 const History = (props) => {
@@ -78,6 +79,30 @@ const History = (props) => {
   return (
     <>
       <div className="container mx-auto my-4" id="print-content">
+        {props.flash.message &&
+          <div className="mx-5">
+            <div className="flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+              <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
+              <span className="sr-only">Info</span>
+              <div>
+                <span className="font-medium">{props.flash.message}</span>
+              </div>
+            </div>
+          </div>
+        }
+
+        {props.flash.error &&
+          <div className="mx-5">
+            <div className="flex p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+              <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
+              <span className="sr-only">Info</span>
+              <div>
+                <span className="font-medium">{props.flash.error}</span>
+              </div>
+            </div>
+          </div>
+        }
+
         <div className="text-center font-bold mx-auto my-4 text-2xl">
           <h1>Rincian Data</h1>
         </div>
@@ -356,17 +381,25 @@ function Modal(props) {
     closeModal();
   }
 
-  const handleChange = (e) => {
-    let rawText = e.target.value
-    let numberText = rawText.replace(/\D/g, '')
-    let result = numberText
-
-    if (allowNegative) {
-      result = handleNegativeValue(rawText, numberText)
-    }
-
-    onChange(Number(result))
+  let rupiahFormatSaldo;
+  if (saldo) {
+    rupiahFormatSaldo = numeral(saldo).format('0,0');
+  } else {
+    rupiahFormatSaldo = '';
   }
+
+  let rupiahFormatBelanja;
+  if (belanja) {
+    rupiahFormatBelanja = numeral(belanja).format('0,0');
+  } else {
+    rupiahFormatBelanja = '';
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === '.' || event.key === ',') {
+      event.preventDefault();
+    }
+  };
 
   return (
     <>
@@ -405,34 +438,41 @@ function Modal(props) {
                   <Dialog.Description as="div">
                     <div className="flex flex-col items-center space-y-2">
                       {data.judul === "Saldo" ? (
-                        <div className="mt-3">
+                        <div className="mt-3 grid grid-cols-2">
                           <input id="idSaldo" defaultValue={data.id} onChange={(e) => setIdSaldo(data.id)} type="hidden" />
                           <div>
-                            <label>Saldo/deposit</label> <br />
-                            <input id="saldo" placeholder="contoh: 125000. Angka harap digabung" onChange={(e) => setSaldo(e.target.value)} defaultValue={data.saldo} className="w-full p-2 border" />
+                            <div>
+                              <label>Saldo/deposit</label> <br />
+                              <input id="saldo" placeholder="contoh: 125000. Angka harap digabung" onChange={(e) => setSaldo(e.target.value)} defaultValue={data.saldo} className="w-full p-2 border" onKeyDown={handleKeyDown} />
+                            </div>
                           </div>
+                          <div>Rp. {rupiahFormatSaldo}</div>
                           <div className="mt-3">
                             <label>Tanggal Saldo</label> <br />
                             <input id="tanggalSaldo" onChange={(e) => setTanggalSaldo(e.target.value)} defaultValue={data.tanggalSaldo} className="w-full p-2 border" type="date" />
                           </div>
                         </div>
                       ) : (
-                        <div className="mt-3">
-                          <input id="idBelanja" defaultValue={data.id} onChange={(e) => setIdBelanja(data.id)} type="hidden" />
+                        <div className="mt-3 grid grid-cols-2">
                           <div>
-                            <label>Belanja</label> <br />
-                            <input id="belanja" placeholder="contoh: 125000. Angka harap digabung" onChange={(e) => setBelanja(e.target.value)} defaultValue={data.belanja} className="w-full p-2 border" />
+                            <input id="idBelanja" defaultValue={data.id} onChange={(e) => setIdBelanja(data.id)} type="hidden" />
+                            <div>
+                              <label>Belanja</label> <br />
+                              <input id="belanja" placeholder="contoh: 125000. Angka harap digabung" onChange={(e) => setBelanja(e.target.value)} defaultValue={data.belanja} className="w-full p-2 border" onKeyDown={handleKeyDown} />
+                            </div>
+                            <div className="mt-3">
+                              <label>Tanggal Belanja</label> <br />
+                              <input id="tanggalBelanja" onChange={(e) => setTanggalBelanja(e.target.value)} defaultValue={data.tanggalBelanja} className="w-full p-2 border" type="date" />
+                            </div>
                           </div>
-                          <div className="mt-3">
-                            <label>Tanggal Belanja</label> <br />
-                            <input id="tanggalBelanja" onChange={(e) => setTanggalBelanja(e.target.value)} defaultValue={data.tanggalBelanja} className="w-full p-2 border" type="date" />
-                          </div>
+                          <div>Rp. {rupiahFormatBelanja}</div>
                         </div>
                       )}
                     </div>
                   </Dialog.Description>
                   {data.judul === "Saldo" ? (
                     <div className="mt-3">
+                      <p className="text-sky-600 my-2 font-bold">Harap mengisi saldo/deposit dengan angka bersambung tanpa titik/koma</p>
                       <button
                         type="button"
                         className="mt-3 text-white bg-blue-600 p-2 rounded-lg mx-3"
@@ -451,6 +491,7 @@ function Modal(props) {
                   ) : (
                     <div>
                       <div className="mt-3">
+                        <p className="text-sky-600 my-2 font-bold">Harap mengisi belanja dengan angka bersambung tanpa titik/koma</p>
                         <button
                           type="button"
                           className="mt-3 text-white bg-blue-600 p-2 rounded-lg mx-3"

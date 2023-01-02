@@ -7,33 +7,6 @@ import { useState, useEffect, useRef } from "react";
 
 const Tambah = (props) => {
 
-  // const [values, setValues] = useState({
-  //   nik: "",
-  //   nama: "",
-  //   alamat: "",
-  //   jabatan: "",
-  //   jenisKelamin: "",
-  //   // notif: false,
-  // })
-
-  // function handleChange(e) {
-  //   const key = e.target.id;
-  //   const value = e.target.value
-  //   setValues(values => ({
-  //     ...values,
-  //     [key]: value,
-  //   }))
-  // }
-
-  // function handleSubmit(e) {
-  //   e.preventDefault()
-  //   console.log(values)
-  //   Inertia.post('/tambahdata/store', values);
-  //   setValues
-  // }
-
-  // console.log(props);
-
   const [nik, setNik] = useState('');
   const [nama, setNama] = useState('');
   const [alamat, setAlamat] = useState('');

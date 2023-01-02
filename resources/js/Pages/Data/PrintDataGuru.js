@@ -18,7 +18,7 @@ const PrintDataGuru = (props) => {
   return (
     <>
       <div onLoad={window.print()}>
-        <b className="text-2xl">Rekapitulasi saldo</b><br />
+        <b className="text-2xl">REKAPITULASI SALDO</b><br />
         <b className="text-xl">SMAKDA RETAIL SMK N 2 PURBALINGGA</b><br />
         <div>{CurrentDate()}</div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -53,7 +53,7 @@ const PrintDataGuru = (props) => {
                 return (
                   <tr key={i} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <th scope="row" className="text-center md:px-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {i++}
+                      {i + 1}
                     </th>
                     <td className="px-2 md:px-6">
                       {data.nik}

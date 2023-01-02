@@ -2,6 +2,7 @@ import Main from "@/Components/Guru/Main";
 import { Inertia } from "@inertiajs/inertia";
 import { InertiaLink, Link } from "@inertiajs/inertia-react";
 import React, { useState } from "react";
+import numeral from 'numeral';
 
 const DepoBelanja = (props) => {
 
@@ -14,6 +15,7 @@ const DepoBelanja = (props) => {
 
   const handleSubmitDeposit = (e) => {
     e.preventDefault();
+
     const data = {
       saldo, tanggalSaldo, nik: props.dataKeuangan.nik
     }
@@ -34,6 +36,22 @@ const DepoBelanja = (props) => {
     setTanggalBelanja('');
     // console.log(data, props);
   }
+
+
+  let rupiahFormat;
+  if (saldo) {
+    rupiahFormat = numeral(saldo).format('0,0');
+  } else {
+    rupiahFormat = '';
+  }
+
+  let rupiahFormatBelanja;
+  if (belanja) {
+    rupiahFormatBelanja = numeral(belanja).format('0,0');
+  } else {
+    rupiahFormatBelanja = '';
+  }
+
 
   return (
     <>
@@ -103,23 +121,26 @@ const DepoBelanja = (props) => {
               {/* <form> */}
               <div className="grid gap-6 mb-6 px-4 md:grid-cols-1">
                 <form onSubmit={handleSubmitDeposit}>
-                  <div className="mb-2">
-                    <label
-                      htmlFor="saldo"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Saldo
-                    </label>
-                    <input
-                      type="text"
-                      name="saldo"
-                      id="saldo"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Saldo"
-                      onChange={(saldo) => setSaldo(saldo.target.value)} value={saldo}
-                    />
-                    {props.errors.saldo && <div className="text-red-600">{props.errors.saldo}</div>}
+                  <div className="mb-2 grid-cols-2 grid">
+                    <div>
+                      <label
+                        htmlFor="saldo"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Saldo
+                      </label>
+                      <input
+                        type="number" min="0"
+                        name="saldo"
+                        id="saldo"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="contoh: 25000"
+                        onChange={(saldo) => setSaldo(saldo.target.value)} value={(saldo)}
+                      />
+                    </div>
+                    <div className="mx-auto mt-6">Rp. {rupiahFormat}</div>
                   </div>
+                  {props.errors.saldo && <div className="text-red-600">{props.errors.saldo}</div>}
                   <div>
                     <label
                       htmlFor="tanggal"
@@ -136,6 +157,7 @@ const DepoBelanja = (props) => {
                     />
                     {props.errors.tanggalSaldo && <div className="text-red-600">{props.errors.tanggalSaldo}</div>}
                   </div>
+                  <p className="text-sky-600 my-2 font-bold">Harap mengisi saldo/deposit dengan angka bersambung tanpa titik/koma</p>
                   <button
                     type="submit" as="button"
                     className="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -149,23 +171,26 @@ const DepoBelanja = (props) => {
                 </div>
 
                 <form onSubmit={handleSubmitBelanja}>
-                  <div className="mb-2">
-                    <label
-                      htmlFor="belanja"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                      Belanja
-                    </label>
-                    <input
-                      type="text"
-                      name="belanja"
-                      id="belanja"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      placeholder="Belanja"
-                      onChange={(belanja) => setBelanja(belanja.target.value)} value={belanja}
-                    />
-                    {props.errors.belanja && <div className="text-red-600">{props.errors.belanja}</div>}
+                  <div className="mb-2 grid grid-cols-2">
+                    <div>
+                      <label
+                        htmlFor="belanja"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Belanja
+                      </label>
+                      <input
+                        type="number" min={0}
+                        name="belanja"
+                        id="belanja"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Belanja"
+                        onChange={(belanja) => setBelanja(belanja.target.value)} value={belanja}
+                      />
+                    </div>
+                    <div className="mx-auto mt-6">Rp. {rupiahFormatBelanja}</div>
                   </div>
+                  {props.errors.belanja && <div className="text-red-600">{props.errors.belanja}</div>}
                   <div>
                     <label
                       htmlFor="tanggalBelanja"
@@ -178,12 +203,13 @@ const DepoBelanja = (props) => {
                       name="tanggalBelanja"
                       id="tanggalBelanja"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      onChange={(tanggalBelanja) => setTanggalBelanja(tanggalBelanja.target.value)} value={tanggalBelanja}
+                      onChange={(tanggalBelanja) => setTanggalBelanja(tanggalBelanja.target.value)} value={tanggalBelanja} placeholder="contoh: 25000"
                     />
                     {props.errors.tanggalBelanja && <div className="text-red-600">{props.errors.tanggalBelanja}</div>}
                   </div>
 
                   <div className="mt-5">
+                    <p className="text-sky-600 my-2 font-bold">Harap mengisi belanja dengan angka bersambung tanpa titik/koma</p>
                     <button
                       type="submit"
                       className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

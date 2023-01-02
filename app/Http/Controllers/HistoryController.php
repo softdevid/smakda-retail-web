@@ -14,8 +14,8 @@ class HistoryController extends Controller
     public function index($nik)
     {
         $dataGuru = DataGuru::where('nik', $nik)->first();
-        $dataDeposit = Deposit::where('nik', $nik)->get();
-        $dataBelanja = Belanja::where('nik', $nik)->get();
+        $dataDeposit = Deposit::latest()->where('nik', $nik)->get();
+        $dataBelanja = Belanja::latest()->where('nik', $nik)->get();
         return Inertia::render('Data/History', [
             'title' => 'History',
             'dataDeposit' => $dataDeposit,
@@ -38,6 +38,10 @@ class HistoryController extends Controller
     public function belanjaUpdate(Request $request, $id)
     {
         $belanja = Belanja::where('id', $id)->first();
+
+        if ($request->belanja > $belanja->sisaSaldo) {
+            return back()->with('error', 'Belanja yang diubah lebih dari sisa saldo');
+        }
 
         $belanja->update([
             'belanja' => $request->belanja ?? $belanja->belanja,

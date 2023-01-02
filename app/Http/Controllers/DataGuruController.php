@@ -19,7 +19,7 @@ class DataGuruController extends Controller
      */
     public function index()
     {
-        $dataGuru = DataGuru::all();
+        $dataGuru = DataGuru::orderBy('nama', 'asc')->get();
         return Inertia::render('Home/Utama', [
             "title" => "Halaman Utama",
             'dataGuru' => $dataGuru,
