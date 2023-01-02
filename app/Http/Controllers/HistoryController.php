@@ -24,20 +24,25 @@ class HistoryController extends Controller
         ]);
     }
 
-    // public function dataHistoryDeposit(Request $request, $nik)
-    // {
-    //     $search = $request->input('search');
-    //     $page = $request->input('page');
-    //     $limit = 10;
-    //     $offset = ($page - 1) * $limit;
+    public function depositUpdate(Request $request, $id)
+    {
+        $deposit = Deposit::where('id', $id)->first();
 
-    //     $data = DB::table('deposits')
-    //         ->where('nik', 'like', '%' . $search . '%')
-    //         ->orWhere('tanggalSaldo', 'like', '%' . $search . '%')
-    //         ->offset($offset)
-    //         ->limit($limit)
-    //         ->get();
+        $deposit->update([
+            'saldo' => $request->saldo ?? $deposit->saldo,
+            'tanggalSaldo' => $request->tanggalSaldo ?? $deposit->tanggalSaldo,
+        ]);
+        return back()->with('message', 'Berhasil diubah');
+    }
 
-    //     return response()->json($data);
-    // }
+    public function belanjaUpdate(Request $request, $id)
+    {
+        $belanja = Belanja::where('id', $id)->first();
+
+        $belanja->update([
+            'belanja' => $request->belanja ?? $belanja->belanja,
+            'tanggalBelanja' => $request->tanggalBelanja ?? $belanja->tanggalBelanja,
+        ]);
+        return back()->with('message', 'Berhasil diubah');
+    }
 }

@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/data-guru/history/{nik}', [HistoryController::class, 'index'])->name('history');
     Route::get('/history/deposit', [HistoryController::class, 'dataHistoryDeposit'])->name('dataHistoryDeposit');
+    Route::post('/history/deposit/update/{id}', [HistoryController::class, 'depositUpdate'])->name('deposit.update');
+    Route::post('/history/belanja/update/{id}', [HistoryController::class, 'belanjaUpdate'])->name('belanja.update');
 
     // Route::get('/history/deposit', function (Request $request) {
     //     $search = $request->input('search');

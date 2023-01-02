@@ -1,10 +1,11 @@
 import Main from "@/Components/Guru/Main";
 import { Dialog, Transition } from "@headlessui/react";
+import { Inertia } from "@inertiajs/inertia";
 import { Link } from "@inertiajs/inertia-react";
 import React, { Fragment, useEffect, useState } from "react";
 
 const History = (props) => {
-  console.log(props);
+  // console.log(props);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalData, setModalData] = useState({});
@@ -41,13 +42,19 @@ const History = (props) => {
 
   const [page, setPage] = useState(1);
   const data = props.dataDeposit;
-  const dataBelanja = props.dataBelanja;
-  const limit = 10;
+  const limit = 1;
   const totalPages = Math.ceil(data.length / limit);
+
+  const [pageBelanja, setPageBelanja] = useState(1);
+  const dataBelanja = props.dataBelanja;
   const totalPagesBelanja = Math.ceil(dataBelanja.length / limit);
 
   const paginateData = (pageNumber) => {
     setPage(pageNumber);
+  };
+
+  const paginateDataBelanja = (pageNumber) => {
+    setPageBelanja(pageNumber);
   };
 
   const [value, setValue] = useState("");
@@ -74,6 +81,15 @@ const History = (props) => {
         <div className="text-center font-bold mx-auto my-4 text-2xl">
           <h1>Rincian Data</h1>
         </div>
+        {props.flash.message &&
+          <div className="flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+            <svg aria-hidden="true" className="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path></svg>
+            <span className="sr-only">Info</span>
+            <div>
+              <span className="font-medium">{props.flash.message}</span>
+            </div>
+          </div>
+        }
         <div className="flex justify-center items-center mx-auto">
           <div className="max-w-5xl bg-white p-4 rounded-lg overflow-hidden">
             <div className="px-6">
@@ -85,7 +101,7 @@ const History = (props) => {
               </div>
               <div className="flex items-center mt-4 text-gray-700">
                 <h1 className="px-2 text-lg">
-                  Sisa Saldo : {props.dataGuru.sisaSaldo}
+                  Sisa Saldo : {formatRupiah(props.dataGuru.sisaSaldo)}
                 </h1>
               </div>
             </div>
@@ -148,7 +164,7 @@ const History = (props) => {
                           {data.nik}
                         </th>
                         <td className="py-4 px-6">{data.tanggalSaldo}</td>
-                        <td className="py-4 px-6">{data.saldo}</td>
+                        <td className="py-4 px-6">{formatRupiah(data.saldo)}</td>
                         <td className="py-4 px-6">
                           <button
                             type="button"
@@ -158,6 +174,7 @@ const History = (props) => {
                                 judul: "Saldo",
                                 tanggalSaldo: data.tanggalSaldo,
                                 saldo: data.saldo,
+                                id: data.id,
                               })
                             }
                           >
@@ -178,10 +195,10 @@ const History = (props) => {
               )}
             </tbody>
           </table>
-          <div>
+          <div className="text-center">
             {page > 1 && (
               <button
-                className="p-2 bg-gray-800 text-white text-left"
+                className="p-2 bg-gray-800 text-white text-left rounded-md mx-2"
                 onClick={() => paginateData(page - 1)}
               >
                 Previous
@@ -189,7 +206,7 @@ const History = (props) => {
             )}
             {page < totalPages && (
               <button
-                className="p-2 bg-gray-800 text-white text-end"
+                className="p-2 bg-gray-800 text-white text-end rounded-md mx-2"
                 onClick={() => paginateData(page + 1)}
               >
                 Next
@@ -228,7 +245,7 @@ const History = (props) => {
             <tbody>
               {searchBelanja(props.dataBelanja).length > 0 ? (
                 searchBelanja(props.dataBelanja)
-                  .slice((page - 1) * limit, page * limit)
+                  .slice((pageBelanja - 1) * limit, pageBelanja * limit)
                   .map((dataBelanja, i) => {
                     return (
                       <tr
@@ -244,7 +261,7 @@ const History = (props) => {
                         <td className="py-4 px-6">
                           {dataBelanja.tanggalBelanja}
                         </td>
-                        <td className="py-4 px-6">{dataBelanja.belanja}</td>
+                        <td className="py-4 px-6">{formatRupiah(dataBelanja.belanja)}</td>
                         <td className="py-4 px-6">
                           <button
                             type="button"
@@ -254,6 +271,7 @@ const History = (props) => {
                                 judul: "Belanja",
                                 tanggalBelanja: dataBelanja.tanggalBelanja,
                                 belanja: dataBelanja.belanja,
+                                id: dataBelanja.id
                               })
                             }
                           >
@@ -274,19 +292,19 @@ const History = (props) => {
               )}
             </tbody>
           </table>
-          <div>
-            {page > 1 && (
+          <div className="text-center">
+            {pageBelanja > 1 && (
               <button
-                className="p-2 bg-gray-800 text-white text-left"
-                onClick={() => paginateData(page - 1)}
+                className="p-2 bg-gray-800 text-white rounded-md mx-2"
+                onClick={() => paginateDataBelanja(pageBelanja - 1)}
               >
                 Previous
               </button>
             )}
-            {page < totalPages && (
+            {pageBelanja < totalPagesBelanja && (
               <button
-                className="p-2 bg-gray-800 text-white text-end"
-                onClick={() => paginateData(page + 1)}
+                className="p-2 bg-gray-800 text-white rounded-md mx-2"
+                onClick={() => paginateData(pageBelanja + 1)}
               >
                 Next
               </button>
@@ -309,6 +327,46 @@ function Modal(props) {
   const closeModal = () => {
     props.closeModal();
   };
+
+  //saldo update
+  const [saldo, setSaldo] = useState(data.saldo);
+  const [tanggalSaldo, setTanggalSaldo] = useState(data.tanggalSaldo);
+
+  const handleSubmitSaldo = () => {
+    // e.preventDefault();
+    const dataSaldo = {
+      saldo, tanggalSaldo
+    }
+    console.log(dataSaldo);
+    Inertia.post(`/history/deposit/update/${data.id}`, dataSaldo);
+    closeModal();
+  }
+
+  //belanja update
+  const [belanja, setBelanja] = useState(data.belanja);
+  const [tanggalBelanja, setTanggalBelanja] = useState(data.tanggalBelanja);
+
+  const handleSubmitBelanja = () => {
+    // e.preventDefault();
+    const dataBelanja = {
+      belanja, tanggalBelanja
+    }
+
+    Inertia.post(`/history/belanja/update/${data.id}`, dataBelanja);
+    closeModal();
+  }
+
+  const handleChange = (e) => {
+    let rawText = e.target.value
+    let numberText = rawText.replace(/\D/g, '')
+    let result = numberText
+
+    if (allowNegative) {
+      result = handleNegativeValue(rawText, numberText)
+    }
+
+    onChange(Number(result))
+  }
 
   return (
     <>
@@ -336,37 +394,81 @@ function Modal(props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-center align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-slate-800"
                   >
-                    {`Detail Histori ${data.judul}`}
+                    {`Ubah Histori ${data.judul}`}
                   </Dialog.Title>
 
                   <Dialog.Description as="div">
                     <div className="flex flex-col items-center space-y-2">
                       {data.judul === "Saldo" ? (
-                        <div>
-                          <div>Saldo : {data.saldo}</div>
-                          <div>Tanggal Saldo : {data.tanggalSaldo}</div>
+                        <div className="mt-3">
+                          <input id="idSaldo" defaultValue={data.id} onChange={(e) => setIdSaldo(data.id)} type="hidden" />
+                          <div>
+                            <label>Saldo/deposit</label> <br />
+                            <input id="saldo" placeholder="contoh: 125000. Angka harap digabung" onChange={(e) => setSaldo(e.target.value)} defaultValue={data.saldo} className="w-full p-2 border" />
+                          </div>
+                          <div className="mt-3">
+                            <label>Tanggal Saldo</label> <br />
+                            <input id="tanggalSaldo" onChange={(e) => setTanggalSaldo(e.target.value)} defaultValue={data.tanggalSaldo} className="w-full p-2 border" type="date" />
+                          </div>
                         </div>
                       ) : (
-                        <div>
-                          <div>Belanja : {data.belanja}</div>
-                          <div>Tanggal Belanja : {data.tanggalBelanja}</div>
+                        <div className="mt-3">
+                          <input id="idBelanja" defaultValue={data.id} onChange={(e) => setIdBelanja(data.id)} type="hidden" />
+                          <div>
+                            <label>Belanja</label> <br />
+                            <input id="belanja" placeholder="contoh: 125000. Angka harap digabung" onChange={(e) => setBelanja(e.target.value)} defaultValue={data.belanja} className="w-full p-2 border" />
+                          </div>
+                          <div className="mt-3">
+                            <label>Tanggal Belanja</label> <br />
+                            <input id="tanggalBelanja" onChange={(e) => setTanggalBelanja(e.target.value)} defaultValue={data.tanggalBelanja} className="w-full p-2 border" type="date" />
+                          </div>
                         </div>
                       )}
                     </div>
                   </Dialog.Description>
+                  {data.judul === "Saldo" ? (
+                    <div className="mt-3">
+                      <button
+                        type="button"
+                        className="mt-3 text-white bg-blue-600 p-2 rounded-lg mx-3"
+                        onClick={() => handleSubmitSaldo()}
+                      >
+                        Simpan
+                      </button>
+                      <button
+                        type="button"
+                        className="mt-3 text-white mx-3 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                        onClick={closeModal}
+                      >
+                        Batal
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="mt-3">
+                        <button
+                          type="button"
+                          className="mt-3 text-white bg-blue-600 p-2 rounded-lg mx-3"
+                          onClick={() => handleSubmitBelanja()}
+                        >
+                          Simpan
+                        </button>
+                        <button
+                          type="button"
+                          className="mt-3 text-white mx-3 bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                          onClick={closeModal}
+                        >
+                          Batal
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
-                  <button
-                    type="button"
-                    className="ml-5 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-                    onClick={closeModal}
-                  >
-                    Batal
-                  </button>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
