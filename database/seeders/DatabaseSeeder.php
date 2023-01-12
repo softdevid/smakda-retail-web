@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin'),
         ]);
 
-        // DataGuru::factory()->count(10)->create();
+        DataGuru::factory()->count(10)->create();
 
-        $this->call(GuruSeeder::class);
+        // $this->call(GuruSeeder::class);
     }
 }
